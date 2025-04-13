@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "std",
+            "type": "shell",
+            "group": "build",
+            "command": "python std.py"
+        },
+
+        {
+            "label": "boost",
+            "type": "shell",
+            "group": "build",
+            "command": "python boost.py"
+        },
+
+        {
+            "label": "Eigen",
+            "type": "shell",
+            "group": "build",
+            "command": "python Eigen.py"
+        },
+
+        {
+            "label": "stdexec",
+            "type": "shell",
+            "group": "build",
+            "command": "python stdexec.py"
+        },
+    ]
+}

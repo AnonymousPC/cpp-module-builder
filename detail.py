@@ -1,4 +1,5 @@
 import os
+import random
 import re
 import shutil
 import subprocess
@@ -18,7 +19,7 @@ red     = "\033[38;2;240;240;0m"
 yellow  = "\033[38;2;240;240;0m"
 green   = "\033[38;2;0;240;0m"
 white   = "\033[38;2;192;192;192m"
-counter = 1
+random.seed(0)
 
 
 
@@ -48,24 +49,25 @@ link_args    = []
 
 # Compile
      
-def build(repo,                              # "https://github.com/NVIDIA/stdexec.git"
+def build(repo_cmd,                          # "git clone https://github.com/NVIDIA/stdexec.git"
           src_dirs,                          # ["./include"]
           import_modules,                    # ["std"]
           import_headers,                    # ["<tbb/tbb.h>m"]
+          import_macros,                     # None
           export_module,                     # "stdexec"
           export_headers,                    # ["<stdexec/concepts.hpp>", "<stdexec/coroutine.hpp>", "<stdexec/execution.hpp>", ...]
           export_namespaces,                 # ["stdexec", "exec", "execpools"]
-          on_preprocess = lambda file: None, # None
+          on_preprocess = lambda file: file, # None
           on_success    = lambda     : None, # None
           on_failure    = lambda     : None  # print("remove above 'static' from the function declaration (totally about 1-2 times)")
          ):
-    repo_dir = f"{module_path}/{re.match(r'.*/([^/]+)\.git', repo).group(1)}" # match "stdexec" => /usr/module/stdexec
+    repo_dir = f"{module_path}/{export_module}" # "/usr/module/stdexec"
 
     try:
         shutil.rmtree(repo_dir) # /usr/module/stdexec
     except:
         pass
-    run(f"git clone {repo} {repo_dir} --depth=1")
+    run(f"{repo_cmd} {repo_dir}")
 
     for src_dir in src_dirs:
         for root, _, files in os.walk(f"{repo_dir}/{src_dir}"): # usr/module/stdexec/include
@@ -77,11 +79,11 @@ def build(repo,                              # "https://github.com/NVIDIA/stdexe
                         data = reader.read()
 
                     for export_namespace in export_namespaces:
-                        data = re.sub(fr'(?<!using )(?<!export )namespace {export_namespace}', f"export namespace {export_namespace}", data) # export namespace stdexec
+                        data = re.sub(fr'\b(?<!using )(?<!export )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
 
-                    data = re.sub(r'namespace\s+{', "inline namespace __anonymous__ {", data) # namespace {}
+                    data = re.sub(r'\bnamespace(?=\s+{)', f"inline namespace __anonymous_{random.randint(0, 65535)}__", data) # namespace {}
 
-                    on_preprocess(data)
+                    data = on_preprocess(data)
 
                     with open(f"{root}/{file}", 'w') as writer:
                         writer.write(data)
@@ -90,7 +92,11 @@ def build(repo,                              # "https://github.com/NVIDIA/stdexe
                     print(f"{red}warning: processing {root}/{file} failed: {error}{white}")
 
     with open(f"{module_path}/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
-        cppm.write(global_module)
+        cppm.write(global_module) # module;
+
+        for import_macro in import_macros.items():
+            cppm.write(f"#define {import_macro[0]} {import_macro[1]}\n")
+
         for import_header in import_headers:
             cppm.write(f"#include {import_header}\n") # include <tbb/tbb.h>
 
@@ -103,12 +109,10 @@ def build(repo,                              # "https://github.com/NVIDIA/stdexe
 
     while True:
         try:
-            input(f"{yellow}Press Enter to compile...{white}")
             run(f"{compiler} "
                 f"{' '.join(compile_args)} "
                 f"{' '.join(link_args)} "
                 f"{' '.join(f"-I{repo_dir}/{src_dir}" for src_dir in src_dirs)} "
-                f"-I{include_path} "
                 f"-fprebuilt-module-path={module_path} "
                 f"{module_path}/{export_module}.cppm "
                 f"--precompile -o {module_path}/{export_module}.pcm")
@@ -116,6 +120,10 @@ def build(repo,                              # "https://github.com/NVIDIA/stdexe
             break
         except Exception:
             on_failure()
+            try:
+                input(f"{yellow}Press Enter to re-compile, or Ctrl-C to abort:{white}")
+            except KeyboardInterrupt:
+                exit(-1)
 
 
 
@@ -230,4 +238,30 @@ module;
 #include <variant>
 #include <vector>
 #include <version>
+
+#ifdef _WIN32
+    #include <windows.h>
+    #include <winsock2.h>
+#elifdef __linux__
+    // Nothing...
+#elifdef __APPLE__
+    #include <netdb.h>
+    #include <sys/event.h>
+    #include <sys/fcntl.h>
+    #include <sys/ioctl.h>
+    #include <sys/poll.h>
+    #include <sys/socket.h>
+    #include <sys/stat.h>
+    #include <sys/termios.h>
+    #include <sys/time.h>
+    #include <sys/unistd.h>
+    #include <sys/_select.h>
+    #include <mach/arm/thread_status.h>
+    #include <mach-o/dyld.h>
+    #include <mach-o/nlist.h>
+#endif
+
+#ifdef __GNUC__
+    #include <cxxabi.h>
+#endif
 '''

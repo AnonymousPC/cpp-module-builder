@@ -4,6 +4,9 @@
         "__hash_table": "cpp",
         "valarray": "cpp",
         "vector": "cpp",
-        "mutex": "cpp"
+        "mutex": "cpp",
+        "__locale": "cpp",
+        "*.ipp": "cpp",
+        "__config": "cpp"
     }
 }

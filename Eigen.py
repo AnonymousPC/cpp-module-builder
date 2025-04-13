@@ -1,30 +1,41 @@
 from detail import *
 import re
 
-repo              = "https://gitlab.com/libeigen/eigen.git"
-src_dirs          = ["./Eigen"]
+repo_cmd          = "git clone https://gitlab.com/libeigen/eigen.git --depth=1"
+src_dirs          = ["./Eigen", "./unsupported/Eigen"]
 import_modules    = ["std"]
 import_headers    = []
+import_macros     = {"eigen_assert(expr)": "do { if (not (expr)) throw std::logic_error(EIGEN_MAKESTRING(expr)); } while (false)"}
 export_module     = "Eigen"
 export_headers    = [
-    "<Eigen>"
+    "<Eigen>",
+    "<FFT>",
+    "<CXX11/Tensor>"
 ]
 export_namespaces = ["Eigen"]
 
+def on_preprocess(file):
+    file = re.sub(r'^static\b',                                            "", file, flags=re.MULTILINE)
+    file = re.sub(r'(?<=^inline )static\b',                                "", file, flags=re.MULTILINE)
+    file = re.sub(r'(?<=^EIGEN_DEVICE_FUNC )static\b',                     "", file, flags=re.MULTILINE) 
+    file = re.sub(r'(?<=^EIGEN_STRONG_INLINE )static\b',                   "", file, flags=re.MULTILINE)
+    file = re.sub(r'(?<=^EIGEN_ALWAYS_INLINE )static\b',                   "", file, flags=re.MULTILINE)
+    file = re.sub(r'(?<=^EIGEN_DEVICE_FUNC EIGEN_STRING_INLINE )static\b', "", file, flags=re.MULTILINE)
+    file = re.sub(r'(?<=^EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE )static\b', "", file, flags=re.MULTILINE)
+    file = re.sub(r'\b(inline|EIGEN_ALWAYS_INLINE|EIGEN_STRONG_INLINE|EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS)\b'
+                  r'(?=[a-zA-Z0-9_:<>&*\s,]+\([^\(\)]*\)[^\{\}]*;)',       "", file                    ) 
+    return file
+
 if __name__ == "__main__":
-    print(f"{yellow}You might meat about 30-40 redundant 'static'. Remove them after 'git clone' and before 'compile'.{white}")
-    input(f"{yellow}Press Enter to start.{white}")
-
-    compile(repo              = repo,
-            src_dirs          = src_dirs,
-            import_modules    = import_modules,
-            import_headers    = import_headers,
-            export_module     = export_module,
-            export_headers    = export_headers,
-            export_namespaces = export_namespaces,
-            on_preprocess     = lambda file: file = re.sub(r'\binline\b', "", file)
-            on_failure        = lambda: print(f"{green}remove above 'static' from the function declaration (totally about 30-40 times){white}"))
+    build(repo_cmd          = repo_cmd,
+          src_dirs          = src_dirs,
+          import_modules    = import_modules,
+          import_headers    = import_headers,
+          import_macros     = import_macros,
+          export_module     = export_module,
+          export_headers    = export_headers,
+          export_namespaces = export_namespaces,
+          on_preprocess     = on_preprocess,
+          on_failure        = lambda: print(f"{green}remove above 'inline' from the function declaration{white}"))
 
 
-
-    
