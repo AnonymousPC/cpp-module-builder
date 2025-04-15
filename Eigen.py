@@ -1,7 +1,7 @@
 from detail import *
 import re
 
-repo_cmd          = "git clone https://gitlab.com/libeigen/eigen.git --depth=1"
+repo              = "eigen"
 src_dirs          = ["./Eigen", "./unsupported/Eigen"]
 import_modules    = ["std"]
 import_headers    = []
@@ -14,20 +14,21 @@ export_headers    = [
 ]
 export_namespaces = ["Eigen"]
 
-def on_preprocess(file):
-    file = re.sub(r'^static\b',                                            "", file, flags=re.MULTILINE)
-    file = re.sub(r'(?<=^inline )static\b',                                "", file, flags=re.MULTILINE)
-    file = re.sub(r'(?<=^EIGEN_DEVICE_FUNC )static\b',                     "", file, flags=re.MULTILINE) 
-    file = re.sub(r'(?<=^EIGEN_STRONG_INLINE )static\b',                   "", file, flags=re.MULTILINE)
-    file = re.sub(r'(?<=^EIGEN_ALWAYS_INLINE )static\b',                   "", file, flags=re.MULTILINE)
-    file = re.sub(r'(?<=^EIGEN_DEVICE_FUNC EIGEN_STRING_INLINE )static\b', "", file, flags=re.MULTILINE)
-    file = re.sub(r'(?<=^EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE )static\b', "", file, flags=re.MULTILINE)
-    file = re.sub(r'\b(inline|EIGEN_ALWAYS_INLINE|EIGEN_STRONG_INLINE|EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS)\b'
-                  r'(?=[a-zA-Z0-9_:<>&*\s,]+\([^\(\)]*\)[^\{\}]*;)',       "", file                    ) 
-    return file
+def on_preprocess(file, data):
+    data = re.sub(r'^static\b',                                            "", data, flags=re.MULTILINE)
+    data = re.sub(r'(?<=^inline )static\b',                                "", data, flags=re.MULTILINE)
+    data = re.sub(r'(?<=^EIGEN_DEVICE_FUNC )static\b',                     "", data, flags=re.MULTILINE) 
+    data = re.sub(r'(?<=^EIGEN_STRONG_INLINE )static\b',                   "", data, flags=re.MULTILINE)
+    data = re.sub(r'(?<=^EIGEN_ALWAYS_INLINE )static\b',                   "", data, flags=re.MULTILINE)
+    data = re.sub(r'(?<=^EIGEN_DEVICE_FUNC EIGEN_STRING_INLINE )static\b', "", data, flags=re.MULTILINE)
+    data = re.sub(r'(?<=^EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE )static\b', "", data, flags=re.MULTILINE)
+    data = re.sub(r'\b(inline|EIGEN_ALWAYS_INLINE|EIGEN_STRONG_INLINE|'
+                  r'EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS)\b'
+                  r'(?=[a-zA-Z0-9_:<>&*\s,]+\([^\(\)]*\)[^\{\}]*;)',       "", data                    ) 
+    return data
 
 if __name__ == "__main__":
-    build(repo_cmd          = repo_cmd,
+    build(repo              = repo,
           src_dirs          = src_dirs,
           import_modules    = import_modules,
           import_headers    = import_headers,

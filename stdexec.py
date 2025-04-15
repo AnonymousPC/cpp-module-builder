@@ -1,9 +1,9 @@
 from detail import *
 
-repo_cmd          = "git clone https://github.com/NVIDIA/stdexec.git --depth=1"
+repo              = "stdexec"
 src_dirs          = ["./include"]
-import_modules    = ["std"]
-import_headers    = ["<tbb/tbb.h>"]
+import_modules    = ["std", "tbb"]
+import_headers    = []
 import_macros     = {}
 export_module     = "stdexec"
 export_headers    = [
@@ -14,11 +14,12 @@ export_headers    = [
     "<stdexec/stop_token.hpp>", 
     "<exec/static_thread_pool.hpp>", 
     "<exec/when_any.hpp>",
+    "<execpools/tbb/tbb_thread_pool.hpp>"
 ]
-export_namespaces = ["stdexec", "exec"]
+export_namespaces = ["stdexec", "exec", "execpools"]
 
 if __name__ == "__main__":
-    build(repo_cmd          = repo_cmd,
+    build(repo              = repo,
           src_dirs          = src_dirs,
           import_modules    = import_modules,
           import_headers    = import_headers,
