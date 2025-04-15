@@ -1,7 +1,6 @@
 import os
 import random
 import re
-import shutil
 import subprocess
 import sys
 
@@ -92,7 +91,7 @@ def build(repo,                              # "stdexec"
                 with open(f"{root}/{file}", 'w') as writer:
                     writer.write(data)
 
-    with open(f"{module_path}/{repo}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
+    with open(f"{module_path}/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
         cppm.write(global_module) # module;
 
         for import_macro in import_macros.items():
@@ -116,8 +115,8 @@ def build(repo,                              # "stdexec"
                 f"{' '.join(f"-I{module_path}/{repo}/{src_dir}" for src_dir in src_dirs)} "
                 f"-I{include_path} "
                 f"-fprebuilt-module-path={module_path} "
-                f"{module_path}/{repo}.cppm "
-                f"--precompile -o {module_path}/{repo}.pcm")
+                f"{module_path}/{export_module}.cppm "
+                f"--precompile -o {module_path}/{export_module}.pcm")
             on_success()
             break
         except Exception:

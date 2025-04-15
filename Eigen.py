@@ -1,7 +1,7 @@
 from detail import *
 import re
 
-repo              = "eigen"
+repo              = "Eigen"
 src_dirs          = ["./Eigen", "./unsupported/Eigen"]
 import_modules    = ["std"]
 import_headers    = []
