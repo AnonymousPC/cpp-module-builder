@@ -2,10 +2,13 @@
 
 This project aims to build traditionallt-installed C++ libraries into [C++20 modules](https://en.cppreference.com/w/cpp/language/modules). That is to say, once we use a library such as C++ `boost`, we import a pre-compiled module:
 ```cpp
-import std;
-import boost;
+export import std;
+export import boost;
 import Eigen;
-export import stdexec;
+import stdexec;
+import tbb;
+import clblast;
+...
 export module my_project;
 ```
 instead of `#include` and `link`.
