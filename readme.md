@@ -20,6 +20,7 @@ The prebuilt libraries are:
 - [boost](https://www.boost.org)
 - [Eigen](https://eigen.tuxfamily.org)
 - [stdexec](https://github.com/NVIDIA/stdexec)
+- [tbb](https://github.com/uxlfoundation/oneTBB)
 
 With supported compilers:
 - `g++` >= 15.0
