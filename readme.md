@@ -21,6 +21,7 @@ The prebuilt libraries are:
 - [Eigen](https://eigen.tuxfamily.org)
 - [stdexec](https://github.com/NVIDIA/stdexec)
 - [tbb](https://github.com/uxlfoundation/oneTBB)
+- [clblast](https://github.com/CNugteren/CLBlast)
 
 With supported compilers:
 - `g++` >= 15.0
@@ -67,4 +68,12 @@ and everything goes ok.
 python stdexec.py
 ```
 and everything goes ok.
+
+# tbb
+
+Similiar to boost.
+
+# clblast
+
+Similiar to Eigen. 
 

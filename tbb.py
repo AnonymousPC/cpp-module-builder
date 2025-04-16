@@ -6,13 +6,9 @@ repo              = "tbb"
 src_dirs          = ["./include", "./src"]
 import_modules    = ["std"]
 import_headers    = ["<hwloc.h>"]
-import_macros     = {
-    "__TBB_PREVIEW_PARALLEL_PHASE": "true"
-}
+import_macros     = {"__TBB_PREVIEW_PARALLEL_PHASE": "true"}
 export_module     = "tbb"
-export_headers    = [
-    "<tbb/tbb.h>"
-]
+export_headers    = ["<tbb/tbb.h>"]
 for root, _, files in os.walk(f"{module_path}/{repo}/src"):
     for file in files:
         if file.endswith(".cpp"):
