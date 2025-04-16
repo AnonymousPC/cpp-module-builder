@@ -15,11 +15,11 @@ for subrepo_status in subprocess.run(f"cd {module_path}/boost && git submodule s
     except:
         pass
 
-import_modules    = ["std"]
-import_headers    = [
+import_modules = ["std"]
+import_headers = [
     "<jerror.h>",
     "<jpeglib.h>",
-    "<OpenCL/cl.h>",
+    "<OpenCL/opencl.h>",
     "<openssl/ssl.h>",
     "<png.h>",
     "<tiff.h>",
@@ -51,7 +51,7 @@ import_headers    = [
     "<unicode/uversion.h>",
     "<zlib.h>",
 ]
-import_macros     = {
+import_macros = {
     "BOOST_COMPUTE_HAVE_THREAD_LOCAL":          "", 
     "BOOST_COMPUTE_THREAD_SAFE":                "",
     "BOOST_COMPUTE_USE_CPP11":                  "",
@@ -64,8 +64,8 @@ if system == "windows":
 elif system == "linux" or system == "macos":
     import_macros["BOOST_LOCALE_NO_WINAPI_BACKEND"] = ""
 
-export_module     = "boost"
-export_headers    = [
+export_module  = "boost"
+export_headers = [
     "<boost/asio.hpp>",
     "<boost/asio/ssl.hpp>",
     "<boost/beast.hpp>",
