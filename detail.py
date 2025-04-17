@@ -1,5 +1,4 @@
 import os
-import random
 import re
 import subprocess
 import sys
@@ -18,7 +17,6 @@ red     = "\033[38;2;240;240;0m"
 yellow  = "\033[38;2;240;240;0m"
 green   = "\033[38;2;0;240;0m"
 white   = "\033[38;2;192;192;192m"
-random.seed(0)
 
 
 
@@ -46,7 +44,6 @@ compile_args = [
     "-g", 
     "-w",
     "-fdiagnostics-color=always",
-    "-ferror-limit=50"
 ]
 link_args = []
 
@@ -55,14 +52,14 @@ link_args = []
 
 # Compile
      
-def build(repo,                              # "stdexec"
-          src_dirs,                          # ["./include"]
-          import_modules,                    # ["std", "tbb"]
-          import_headers,                    # []
-          import_macros,                     # None
-          export_module,                     # "stdexec"
-          export_headers,                    # ["<stdexec/concepts.hpp>", "<stdexec/coroutine.hpp>", "<stdexec/execution.hpp>", ...]
-          export_namespaces,                 # ["stdexec", "exec", "execpools"]
+def build(repo,                                    # "stdexec"
+          src_dirs,                                # ["./include"]
+          import_modules,                          # ["std", "tbb"]
+          import_headers,                          # []
+          import_macros,                           # None
+          export_module,                           # "stdexec"
+          export_headers,                          # ["<stdexec/concepts.hpp>", "<stdexec/coroutine.hpp>", "<stdexec/execution.hpp>", ...]
+          export_namespaces,                       # ["stdexec", "exec", "execpools"]
           on_preprocess = lambda file, data: data, # None
           on_success    = lambda           : None, # None
           on_failure    = lambda           : None  # print("remove above 'static' from the function declaration (totally about 1-2 times)")
@@ -84,7 +81,7 @@ def build(repo,                              # "stdexec"
                 for export_namespace in export_namespaces:
                     data = re.sub(fr'\b(?<!using )(?<!export )(?<!// )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
 
-                data = re.sub(r'\bnamespace(?=\s*{)', f"inline namespace __anonymous_{random.randint(0, 65535)}__", data) # namespace {}
+                data = re.sub(r'\bnamespace(?=\s*{)', f"inline namespace __anonymous_{count()}__", data) # namespace {}
 
                 data = on_preprocess(f"{root}/{file}", data)
 
@@ -133,6 +130,15 @@ def run(command):
     subprocess.run(command, shell=True, check=True)
 
 
+
+
+# Detail
+
+counter = 0
+def count():
+    global counter
+    counter += 1
+    return counter
 
 global_module = \
 '''
