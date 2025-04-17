@@ -55,7 +55,6 @@ import_macros = {
     "BOOST_COMPUTE_HAVE_THREAD_LOCAL":          "", 
     "BOOST_COMPUTE_THREAD_SAFE":                "",
     "BOOST_COMPUTE_USE_CPP11":                  "",
-    "BOOST_DISABLE_ASSERTS":                    "",
     "BOOST_LOCALE_WITH_ICU":                    "",
     "BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED": ""
 }
@@ -70,6 +69,7 @@ export_headers = [
     "<boost/asio/ssl.hpp>",
     "<boost/beast.hpp>",
     "<boost/compute.hpp>",
+    "<boost/compute/container/stack.hpp>"
     "<boost/date_time.hpp>",
     "<boost/dll.hpp>",
     "<boost/gil.hpp>",

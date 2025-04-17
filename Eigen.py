@@ -5,7 +5,7 @@ repo              = "Eigen"
 src_dirs          = ["./Eigen", "./unsupported/Eigen"]
 import_modules    = ["std"]
 import_headers    = []
-import_macros     = {"eigen_assert(expr)": "do { if (not (expr)) throw std::logic_error(EIGEN_MAKESTRING(expr)); } while (false)"}
+import_macros     = {}
 export_module     = "Eigen"
 export_headers    = [
     "<Eigen>",
