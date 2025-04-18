@@ -1,6 +1,6 @@
 # C++ Module Builder
 
-This project aims to build traditionallt-installed C++ libraries into [C++20 modules](https://en.cppreference.com/w/cpp/language/modules). That is to say, once we use a library such as C++ `boost`, we import a pre-compiled module:
+This project aims to build traditionally-installed C++ libraries into [C++20 modules](https://en.cppreference.com/w/cpp/language/modules). That is to say, once we use a library such as C++ `boost`, we import a pre-compiled module:
 ```cpp
 export import std;
 export import boost;
