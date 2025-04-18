@@ -13,7 +13,7 @@ elif sys.platform == "linux":
 elif sys.platform == "darwin":
     system = "macos"
 
-red     = "\033[38;2;240;240;0m"
+red     = "\033[38;2;240;0;0m"
 yellow  = "\033[38;2;240;240;0m"
 green   = "\033[38;2;0;240;0m"
 white   = "\033[38;2;192;192;192m"
@@ -43,9 +43,8 @@ compile_args = [
     "-O3", 
     "-g", 
     "-w",
-    "-fdiagnostics-color=always",
+    "-fdiagnostics-color=always"
 ]
-link_args = []
 
 
 
@@ -70,23 +69,27 @@ def build(repo,                                    # "stdexec"
     for src_dir in src_dirs:
         for root, _, files in os.walk(f"{module_path}/{repo}/{src_dir}"): # usr/module/stdexec/include
             for file in files:
-                data = ""
+                try:
+                    data = ""
 
-                with open(f"{root}/{file}", 'r') as reader:
-                    data = reader.read()
+                    with open(f"{root}/{file}", 'r') as reader:
+                        data = reader.read()
 
-                for import_module in import_modules:
-                    data = re.sub(fr'#include\s*<{import_module}[^<>]*>', "", data)
+                    for import_module in import_modules:
+                        data = re.sub(fr'#include\s*<{import_module}[^<>]*>', "", data)
 
-                for export_namespace in export_namespaces:
-                    data = re.sub(fr'\b(?<!using )(?<!export )(?<!// )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
+                    for export_namespace in export_namespaces:
+                        data = re.sub(fr'\b(?<!using )(?<!export )(?<!// )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
 
-                data = re.sub(r'\bnamespace(?=\s*{)', f"inline namespace __anonymous_{count()}__", data) # namespace {}
+                    data = re.sub(r'\bnamespace(?=\s*{)', f"inline namespace __anonymous_{count()}__", data) # namespace {}
 
-                data = on_preprocess(f"{root}/{file}", data)
+                    data = on_preprocess(f"{root}/{file}", data)
 
-                with open(f"{root}/{file}", 'w') as writer:
-                    writer.write(data)
+                    with open(f"{root}/{file}", 'w') as writer:
+                        writer.write(data)
+
+                except Exception as e:
+                    print(f"{red}preprocessing {file} failed: {e}{white}")
 
     with open(f"{module_path}/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
         cppm.write(global_module) # module;
@@ -108,12 +111,15 @@ def build(repo,                                    # "stdexec"
         try:
             run(f"{compiler} "
                 f"{' '.join(compile_args)} "
-                f"{' '.join(link_args)} "
                 f"{' '.join(f"-I{module_path}/{repo}/{src_dir}" for src_dir in src_dirs)} "
                 f"-I{include_path} "
                 f"-fprebuilt-module-path={module_path} "
                 f"{module_path}/{export_module}.cppm "
                 f"--precompile -o {module_path}/{export_module}.pcm")
+            run(f"{compiler} "
+                f"-fprebuilt-module-path={module_path} "
+                f"{module_path}/{export_module}.pcm "
+                f"-c -o {module_path}/{export_module}.o")
             on_success()
             break
         except Exception:

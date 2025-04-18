@@ -17,11 +17,16 @@ The advantage of using `import` over `#include` is significant. Suppose we have 
 
 The prebuilt libraries are:
 - [std](https://en.cppreference.com/w/cpp/standard_library#Importing_modules)
+- [stdexec](https://github.com/NVIDIA/stdexec) (*A C++26 proposal*)
+- [plf_hive](https://github.com/mattreecebentley/plf_hive) (*A C++26 proposal*)
 - [boost](https://www.boost.org)
 - [Eigen](https://eigen.tuxfamily.org)
-- [stdexec](https://github.com/NVIDIA/stdexec)
 - [tbb](https://github.com/uxlfoundation/oneTBB)
 - [clblast](https://github.com/CNugteren/CLBlast)
+
+The libraries planned to be built are:
+- [thrust](https://github.com/NVIDIA/thrust) (*with cuda runtime*)
+- [xlnt](https://github.com/tfussell/xlnt)
 
 With supported compilers:
 - `g++` >= 15.0
