@@ -55,7 +55,7 @@ python boost.py
 ```
 and then follow the intructions on screen. 
 
-There are many `static` variables and global-functions (which refers to internal linkage, but we desire a module linkage such as `inline`). Most of them is substituded inside `boost.py`, while we still need to handle some corner-case manually.
+There are many `static` variables and global-functions (which means an unexportable internal linkage). Most of them is removed by inside `boost.py`, while the cpp-parser cannot hold every situations, thus we still need to **remove some `static`s (which occurs in the compiler output, about 15-25 times) manually**.
 
 The output will be put into `boost.(gcm|pcm)`
 
