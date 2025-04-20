@@ -68,8 +68,9 @@ export_headers = [
     "<boost/asio.hpp>",
     "<boost/asio/ssl.hpp>",
     "<boost/beast.hpp>",
+    "<boost/circular_buffer.hpp>",
     "<boost/compute.hpp>",
-    "<boost/compute/container/stack.hpp>"
+    "<boost/compute/container/stack.hpp>",
     "<boost/date_time.hpp>",
     "<boost/dll.hpp>",
     "<boost/gil.hpp>",
@@ -79,6 +80,12 @@ export_headers = [
     "<boost/gil/extension/io/pnm.hpp>",
     "<boost/gil/extension/io/targa.hpp>",
     "<boost/gil/extension/io/tiff.hpp>",
+    "<boost/graph/adjacency_list.hpp>",
+    "<boost/graph/adjacency_matrix.hpp>",
+    "<boost/graph/astar_search.hpp>",
+    "<boost/graph/breadth_first_search.hpp>",
+    "<boost/graph/depth_first_search.hpp>",
+    "<boost/graph/dijkstra_shortest_paths.hpp>",
     "<boost/iostreams/filtering_stream.hpp>",
     "<boost/iostreams/filter/bzip2.hpp>",
     "<boost/iostreams/filter/gzip.hpp>",
@@ -158,6 +165,9 @@ def on_preprocess(file, data):
 
     if file.endswith("./libs/locale/src/shared/mo_hash.hpp"):
         data = "#pragma once\n" + data
+
+    if file.endswith("./libs/property_map/include/boost/property_map/property_map.hpp"):
+        data = re.sub(r'template(?= <class T.*\n\s*inline)', "export template", data)
 
     if file.endswith("./libs/thread/src/pthread/once_atomic.cpp"):
         data = "#pragma once\n" + data

@@ -43,7 +43,8 @@ compile_args = [
     "-O3", 
     "-g", 
     "-w",
-    "-fdiagnostics-color=always"
+    "-fdiagnostics-color=always",
+    "-ferror-limit=65536"
 ]
 
 
@@ -81,7 +82,7 @@ def build(repo,                                    # "stdexec"
                     for export_namespace in export_namespaces:
                         data = re.sub(fr'\b(?<!using )(?<!export )(?<!// )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
 
-                    data = re.sub(r'\bnamespace(?=\s*{)', f"inline namespace __anonymous_{count()}__", data) # namespace {}
+                    data = re.sub(r'\bnamespace(?=[\s\\]*{)', f"inline namespace __anonymous_{count()}__", data) # namespace {}
 
                     data = on_preprocess(f"{root}/{file}", data)
 
