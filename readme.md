@@ -37,7 +37,7 @@ With supported compilers:
 
 # Usage
 
-## std
+### std
 
 Notice that both `g++` and `clang++` provides a pre-built standard module or a method to build standard module. This project only calles that method.
 
@@ -47,7 +47,7 @@ python std.py
 
 The output will be put into `std.gcm` (if `g++`) or `std.pcm` (if `clang++`)
 
-## boost
+### boost
 
 run
 ```sh
@@ -59,7 +59,7 @@ There are many `static` variables and global-functions (which refers to internal
 
 The output will be put into `boost.(gcm|pcm)`
 
-# Eigen
+### Eigen
 
 run
 ```sh
@@ -67,7 +67,7 @@ python Eigen.py
 ```
 and everything goes ok.
 
-# stdexec
+### stdexec
 
 `stdexec` is a recently-published project, together with modern and high-quality codes, so the `stdexec.py` does not needs to apply any change(s) on the source code and it will compiled into module successfully. run
 ```sh
@@ -75,15 +75,15 @@ python stdexec.py
 ```
 and everything goes ok.
 
-# tbb
+### tbb
 
 Similiar to boost.
 
-# clblast
+### clblast
 
 Similiar to Eigen. 
 
-# plf
+### plf
 
 Similiar to Eigen.
 
