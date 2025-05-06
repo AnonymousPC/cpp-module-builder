@@ -1,4 +1,4 @@
-from detail import *
+from basic.basic import *
 
 repo              = "stdexec"
 src_dirs          = ["./include"]

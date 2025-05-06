@@ -1,4 +1,4 @@
-from detail import *
+from basic.basic import *
 
 repo              = "plf"
 src_dirs          = ["."]

@@ -44,7 +44,7 @@ compile_args = [
     "-g", 
     "-w",
     "-fdiagnostics-color=always",
-    "-ferror-limit=65536"
+    "-ferror-limit=100"
 ]
 
 
@@ -65,7 +65,7 @@ def build(repo,                                    # "stdexec"
           on_failure    = lambda           : None  # print("remove above 'static' from the function declaration (totally about 1-2 times)")
          ):
     
-    run(f"cd {module_path}/{repo} && git reset --hard origin/HEAD --recurse-submodule")
+    run(f"cd {module_path}/{repo} && git fetch --recurse-submodules && git reset --hard origin/HEAD --recurse-submodules")
 
     for src_dir in src_dirs:
         for root, _, files in os.walk(f"{module_path}/{repo}/{src_dir}"): # usr/module/stdexec/include
