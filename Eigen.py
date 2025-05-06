@@ -1,4 +1,4 @@
-from basic.basic import *
+from basic import *
 import re
 
 repo              = "Eigen"

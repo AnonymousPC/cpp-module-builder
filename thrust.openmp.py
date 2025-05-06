@@ -1,10 +1,10 @@
-from basic.basic import *
+from basic import *
 import os
 import re
 
 repo              = "cccl"
 src_dirs          = ["./thrust", "./libcudacxx/include"]
-import_modules    = ["std", "tbb"]
+import_modules    = ["std"]
 import_headers    = []
 for file in os.listdir(f"{module_path}/{repo}/libcudacxx/include/cuda/std"):
     if os.path.isfile(file):
@@ -12,13 +12,13 @@ for file in os.listdir(f"{module_path}/{repo}/libcudacxx/include/cuda/std"):
 
 import_macros     = {
     "THRUST_HOST_SYSTEM":   "THRUST_HOST_SYSTEM_CPP",
-    "THRUST_DEVICE_SYSTEM": "THRUST_DEVICE_SYSTEM_TBB"
+    "THRUST_DEVICE_SYSTEM": "THRUST_DEVICE_SYSTEM_OMP"
 }
-export_module     = "thrust.tbb"
+export_module     = "thrust.openmp"
 export_headers    = []
 for root, _, files in os.walk(f"{module_path}/{repo}/thrust/thrust"):
     for file in files:
-        if not "openmp" in f"{root}/{file}" and \
+        if not "tbb"    in f"{root}/{file}" and \
            not "cuda"   in f"{root}/{file}" and \
            not "detail" in f"{root}/{file}":
             export_headers.append(f'"{root}/{file}"')
