@@ -1,9 +1,10 @@
-from detail import *
+from basic.basic import *
 import os
 
 if __name__ == "__main__":
     if os.path.isdir(f"{module_path}/std") and os.path.isfile(f"{module_path}/std.cppm"):
-        run(f"clang++ -std=c++26 -Wno-reserved-module-identifier --precompile {module_path}/std.cppm -o {module_path}/std.pcm")
+        run(f"clang++ -std=c++26 -Wno-reserved-module-identifier --precompile {module_path}/std.cppm    -o {module_path}/std.pcm")
+        run(f"clang++ -std=c++26                                              {module_path}/std.pcm  -c -o {module_path}/std.o"  )
     else:
         print(f"{red}You should prepare standard module manually in {module_path}{white}")
         print(f"{red}e.g.: cp -r .../llvm/share/libc++/v1/std {module_path}/std && cp .../llvm/share/libc++/v1/std.cppm {module_path}/std.cppm{white}")

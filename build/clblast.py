@@ -1,4 +1,4 @@
-from detail import *
+from basic.basic import *
 import os
 
 repo              = "clblast"

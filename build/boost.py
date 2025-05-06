@@ -1,4 +1,4 @@
-from detail import *
+from basic.basic import *
 import os
 import re
 import subprocess
@@ -19,7 +19,6 @@ import_modules = ["std"]
 import_headers = [
     "<jerror.h>",
     "<jpeglib.h>",
-    "<OpenCL/opencl.h>",
     "<openssl/ssl.h>",
     "<png.h>",
     "<tiff.h>",
@@ -52,9 +51,6 @@ import_headers = [
     "<zlib.h>",
 ]
 import_macros = {
-    "BOOST_COMPUTE_HAVE_THREAD_LOCAL":          "", 
-    "BOOST_COMPUTE_THREAD_SAFE":                "",
-    "BOOST_COMPUTE_USE_CPP11":                  "",
     "BOOST_LOCALE_WITH_ICU":                    "",
     "BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED": ""
 }
@@ -69,9 +65,8 @@ export_headers = [
     "<boost/asio/ssl.hpp>",
     "<boost/beast.hpp>",
     "<boost/circular_buffer.hpp>",
-    "<boost/compute.hpp>",
-    "<boost/compute/container/stack.hpp>",
     "<boost/date_time.hpp>",
+    "<boost/dynamic_bitset.hpp>",
     "<boost/dll.hpp>",
     "<boost/gil.hpp>",
     "<boost/gil/extension/io/bmp.hpp>",
