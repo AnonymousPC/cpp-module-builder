@@ -9,6 +9,10 @@ import Eigen;
 import stdexec;
 import tbb;
 import thrust.openmp;
+import clblast;
+import plf;
+...
+export module my_project;
 ```
 instead of `#include` and `link`.
 
@@ -16,8 +20,8 @@ The advantage of using `import` over `#include` is significant. Suppose we have 
 
 The prebuilt libraries are:
 - [std](https://en.cppreference.com/w/cpp/standard_library#Importing_modules)
-- [stdexec](https://github.com/NVIDIA/stdexec) (*A C++26 proposal*)
-- [plf_hive](https://github.com/mattreecebentley/plf_hive) (*A C++26 proposal*)
+- [stdexec](https://github.com/NVIDIA/stdexec) (*A [C++26 proposal](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p2300r10.html)*)
+- [plf_hive](https://github.com/mattreecebentley/plf_hive) (*A [C++26 proposal](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p0447r15.html)*)
 - [boost](https://www.boost.org)
 - [Eigen](https://eigen.tuxfamily.org)
 - [tbb](https://github.com/uxlfoundation/oneTBB)
