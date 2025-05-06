@@ -1,4 +1,4 @@
-from basic.basic import *
+from basic import *
 import os
 import re
 import subprocess
