@@ -54,18 +54,19 @@ compile_args = [
      
 def build(repo,                                    # "stdexec"
           src_dirs,                                # ["./include"]
-          import_modules,                          # ["std", "tbb"]
+          import_modules,                          # ["std", "boost", "tbb"]
           import_headers,                          # []
           import_macros,                           # None
           export_module,                           # "stdexec"
           export_headers,                          # ["<stdexec/concepts.hpp>", "<stdexec/coroutine.hpp>", "<stdexec/execution.hpp>", ...]
-          export_namespaces,                       # ["stdexec", "exec", "execpools"]
-          on_preprocess = lambda file, data: data, # None
+          export_namespaces,                       # ["stdexec", "exec", "asioexec", "nvexec", "tbbexec", "execpools"]
+          on_preprocess = lambda file, data: data, # data = data.replace(...)
           on_success    = lambda           : None, # None
-          on_failure    = lambda           : None  # print("remove above 'static' from the function declaration (totally about 1-2 times)")
+          on_failure    = lambda           : None  # print("remove above 'static' from the function declaration")
          ):
     
-    run(f"cd {module_path}/{repo} && git fetch --recurse-submodules && git reset --hard origin/HEAD --recurse-submodules")
+    run(f"cd {module_path}/{repo} && git fetch --recurse-submodules")
+    run(f"cd {module_path}/{repo} && git reset --hard origin/HEAD --recurse-submodules")
 
     for src_dir in src_dirs:
         for root, _, files in os.walk(f"{module_path}/{repo}/{src_dir}"): # usr/module/stdexec/include
@@ -77,7 +78,7 @@ def build(repo,                                    # "stdexec"
                         data = reader.read()
 
                     for import_module in import_modules:
-                        data = re.sub(fr'#include\s*<{import_module}[^<>]*>', "", data)
+                        data = re.sub(fr'#\s*include\s*<{import_module.replace('.', '/')}[^<>]*>', "", data) # include <boost/asio.hpp>
 
                     for export_namespace in export_namespaces:
                         data = re.sub(fr'\b(?<!using )(?<!export )(?<!// )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
@@ -96,10 +97,10 @@ def build(repo,                                    # "stdexec"
         cppm.write(global_module) # module;
 
         for import_macro in import_macros.items():
-            cppm.write(f"#define {import_macro[0]} {import_macro[1]}\n")
+            cppm.write(f"#define {import_macro[0]} {import_macro[1]}\n") # define 
 
         for import_header in import_headers:
-            cppm.write(f"#include {import_header}\n") # include <tbb/tbb.h>
+            cppm.write(f"#include {import_header}\n") # include <header/file>
 
         cppm.write(f"export module {export_module};\n") # export module stdexec;
         for import_module in import_modules:
