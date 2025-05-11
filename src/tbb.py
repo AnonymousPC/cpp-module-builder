@@ -15,7 +15,7 @@ export_headers    = [
     "<tbb/tbb.h>"
     "<tbb/concurrent_lru_cache.h>"
 ]
-for root, _, files in os.walk(f"{module_path}/{repo}/src"):
+for root, _, files in os.walk(f"module/{repo}/src"):
     for file in files:
         if file.endswith(".cpp"):
             export_headers.append(f'"{root}/{file}"')

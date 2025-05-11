@@ -9,11 +9,11 @@ import_headers    = ["<nv/target>"]
 import_macros     = {}
 export_module     = "cuda"
 export_headers    = []
-for file in os.listdir(f"{module_path}/cccl/libcudacxx/include/cuda/std"):
-    if os.path.isfile (f"{module_path}/cccl/libcudacxx/include/cuda/std/{file}"):
+for file in os.listdir(f"module/cccl/libcudacxx/include/cuda/std"):
+    if os.path.isfile (f"module/cccl/libcudacxx/include/cuda/std/{file}"):
         export_headers.append(f"<cuda/std/{file}>")
-for file in os.listdir(f"{module_path}/cccl/libcudacxx/include/cuda"):
-    if os.path.isfile (f"{module_path}/cccl/libcudacxx/include/cuda/{file}"):
+for file in os.listdir(f"module/cccl/libcudacxx/include/cuda"):
+    if os.path.isfile (f"module/cccl/libcudacxx/include/cuda/{file}"):
         if not "access_property" in file and \
            not "annotated_ptr"   in file and \
            not "mdspan"          in file and \

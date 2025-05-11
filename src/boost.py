@@ -5,12 +5,12 @@ import subprocess
 
 repo     = "boost"
 src_dirs = []
-for subrepo_status in subprocess.run(f"cd {module_path}/boost && git submodule status", shell=True, check=True, capture_output=True, text=True).stdout.splitlines():
+for subrepo_status in subprocess.run(f"cd module/boost && git submodule status", shell=True, check=True, capture_output=True, text=True).stdout.splitlines():
     try:
         subrepo = re.match(r'^[ \+][0-9a-f]+ libs/([\w/]+) .*$', subrepo_status)[1] # 123456 libs/asio (boost-1.0.0)
-        if os.path.isdir(f"{module_path}/boost/libs/{subrepo}/include"):
+        if os.path.isdir(f"module/boost/libs/{subrepo}/include"):
             src_dirs.append(f"./libs/{subrepo}/include") 
-        if os.path.isdir(f"{module_path}/boost/libs/{subrepo}/src"):
+        if os.path.isdir(f"module/boost/libs/{subrepo}/src"):
             src_dirs.append(f"./libs/{subrepo}/src") 
     except:
         pass
@@ -98,18 +98,18 @@ export_headers = [
     "<boost/stacktrace.hpp>",
 ]
 for subrepo in ["charconv", "datetime", "filesystem", "iostreams", "process", "system", "thread"]:
-    for root, _, files in os.walk(f"{module_path}/boost/libs/{subrepo}/src"):
+    for root, _, files in os.walk(f"module/boost/libs/{subrepo}/src"):
         for file in files:
             if ( system == "windows"                     and not "posix" in f"{root}/{file}") or \
                ((system == "linux" or system == "macos") and not "win"   in f"{root}/{file}"): 
                 export_headers.append(f'"{root}/{file}"')
 for folder in ["icu", "std", "shared", "util"]:
-    for root, _, files in os.walk(f"{module_path}/boost/libs/locale/src/{folder}"):
+    for root, _, files in os.walk(f"module/boost/libs/locale/src/{folder}"):
         for file in files:
             if not "iconv" in file:
                 export_headers.append(f'"{root}/{file}"')
-export_headers.append(f'"{module_path}/boost/libs/locale/src/encoding/codepage.cpp"')
-export_headers.append(f'"{module_path}/boost/libs/stacktrace/src/basic.cpp"')
+export_headers.append(f'"module/boost/libs/locale/src/encoding/codepage.cpp"')
+export_headers.append(f'"module/boost/libs/stacktrace/src/basic.cpp"')
 
 export_namespaces = [
     "std",

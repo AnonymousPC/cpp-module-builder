@@ -26,17 +26,14 @@ if system == "windows":
     compiler     = "g++"
     include_path = "F:/msys/ucrt64/include"
     lib_path     = "F:/msys/ucrt64/lib"
-    module_path  = "F:/msys/ucrt64/module"
 elif system == "linux":
     compiler     = "g++"
     include_path = "/usr/include"
     lib_path     = "/usr/lib"
-    module_path  = "/usr/module"
 elif system == "macos":
     compiler     = "clang++"
     include_path = "/opt/homebrew/include"
     lib_path     = "/opt/homebrew/lib"
-    module_path  = "/opt/homebrew/module"
 
 compile_args = [
     "-std=c++26", 
@@ -44,8 +41,13 @@ compile_args = [
     "-g", 
     "-w",
     "-fdiagnostics-color=always",
-    "-ferror-limit=100"
 ]
+if compiler == "g++":
+    compile_args.append("-fmodules")
+    compile_args.append("-fmodule-only")
+elif compiler == "clang++":
+    compile_args.append("-ferror-limit=100")
+    compile_args.append("-fprebuilt-module-path=pcm.cache")
 
 
 
@@ -65,16 +67,16 @@ def build(repo,                                    # "stdexec"
           on_failure    = lambda           : None  # print("remove above 'static' from the function declaration")
          ):
     
-    run(f"cd {module_path}/{repo} && git fetch --recurse-submodules")
-    run(f"cd {module_path}/{repo} && git reset --hard origin/HEAD --recurse-submodules")
+    run(f"cd module/{repo} && git fetch --recurse-submodules")
+    run(f"cd module/{repo} && git reset --hard origin/HEAD --recurse-submodules")
 
     for src_dir in src_dirs:
-        for root, _, files in os.walk(f"{module_path}/{repo}/{src_dir}"): # usr/module/stdexec/include
+        for root, _, files in os.walk(f"module/{repo}/{src_dir}"): # usr/module/stdexec/include
             for file in files:
                 try:
                     data = ""
 
-                    with open(f"{root}/{file}", 'r') as reader:
+                    with open(f"{root}/{file}", 'r', encoding="utf-8") as reader:
                         data = reader.read()
 
                     for import_module in import_modules:
@@ -87,13 +89,13 @@ def build(repo,                                    # "stdexec"
 
                     data = on_preprocess(f"{root}/{file}", data)
 
-                    with open(f"{root}/{file}", 'w') as writer:
+                    with open(f"{root}/{file}", 'w', encoding="utf-8") as writer:
                         writer.write(data)
 
                 except Exception as e:
                     print(f"{red}preprocessing {file} failed: {e}{white}")
 
-    with open(f"{module_path}/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
+    with open(f"module/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
         cppm.write(global_module) # module;
 
         for import_macro in import_macros.items():
@@ -111,17 +113,22 @@ def build(repo,                                    # "stdexec"
 
     while True:
         try:
-            run(f"{compiler} "
-                f"{' '.join(compile_args)} "
-                f"{' '.join(f"-I{module_path}/{repo}/{src_dir}" for src_dir in src_dirs)} "
-                f"-I{include_path} "
-                f"-fprebuilt-module-path={module_path} "
-                f"{module_path}/{export_module}.cppm "
-                f"--precompile -o {module_path}/{export_module}.pcm")
-            run(f"{compiler} "
-                f"-fprebuilt-module-path={module_path} "
-                f"{module_path}/{export_module}.pcm "
-                f"-c -o {module_path}/{export_module}.o")
+            if compiler == "g++":
+                run(f"{compiler} "
+                    f"{' '.join(compile_args)} "
+                    f"{' '.join(f"-Imodule/{repo}/{src_dir}" for src_dir in src_dirs)} "
+                    f"-I{include_path} "
+                    f"-c module/{export_module}.cppm")
+            elif compiler == "clang++":
+                run(f"{compiler} "
+                    f"{' '.join(compile_args)} "
+                    f"{' '.join(f"-Imodule/{repo}/{src_dir}" for src_dir in src_dirs)} "
+                    f"-I{include_path} "
+                    f"-c module/{export_module}.cppm "
+                    f"--precompile -o module/pcm.cache/{export_module}.pcm")
+                run(f"{compiler} "
+                    f"-c module/pcm.cache/{export_module}.pcm "
+                    f"-o module/pcm.cache/{export_module}.o")
             on_success()
             break
         except Exception:
@@ -210,7 +217,6 @@ module;
 #include <list>
 #include <locale>
 #include <map>
-#include <mdspan>
 #include <memory>
 #include <memory_resource>
 #include <mutex>
@@ -291,5 +297,10 @@ module;
 #endif
 #ifdef __GNUC__
     #include <cxxabi.h>
+#endif
+#if defined(__GNUC__) and not defined(__clang__)
+    #include <stacktrace>
+#elifdef __clang__
+    #include <mdspan>
 #endif
 '''

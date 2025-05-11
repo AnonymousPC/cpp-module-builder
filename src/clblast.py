@@ -8,8 +8,8 @@ import_headers    = ["<OpenCL/opencl.h>"]
 import_macros     = {"OPENCL_API": "true"}
 export_module     = "clblast"
 export_headers    = ["<clblast.h>"]
-export_headers.append(f'"{module_path}/{repo}/src/utilities/utilities.cpp"')
-for root, _, files in os.walk(f"{module_path}/{repo}/src"):
+export_headers.append(f'"module/{repo}/src/utilities/utilities.cpp"')
+for root, _, files in os.walk(f"module/{repo}/src"):
     for file in files:
         if     file.endswith(".cpp")                 and \
            not file.endswith("clblast_c.cpp")        and \
