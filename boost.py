@@ -51,8 +51,10 @@ import_headers = [
     "<zlib.h>",
 ]
 import_macros = {
-    "BOOST_LOCALE_WITH_ICU":                    "",
-    "BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED": ""
+    "BOOST_LOCALE_WITH_ICU":                    "true",
+    "BOOST_LOCALE_NO_WINAPI_BACKEND":           "true",
+    "BOOST_LOCALE_NO_POSIX_BACKEND":            "true",
+    "BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED": "true"
 }
 if system == "windows":
     import_macros["BOOST_LOCALE_NO_POSIX_BACKEND"] = ""
@@ -95,12 +97,18 @@ export_headers = [
     "<boost/spirit/home/x3.hpp>",
     "<boost/stacktrace.hpp>",
 ]
-for subrepo in ["charconv", "datetime", "filesystem", "iostreams", "locale", "process", "system", "thread"]:
+for subrepo in ["charconv", "datetime", "filesystem", "iostreams", "process", "system", "thread"]:
     for root, _, files in os.walk(f"{module_path}/boost/libs/{subrepo}/src"):
         for file in files:
             if ( system == "windows"                     and not "posix" in f"{root}/{file}") or \
-               ((system == "linux" or system == "macos") and not "win"   in f"{root}/{file}" and not "wconv" in f"{root}/{file}"):
+               ((system == "linux" or system == "macos") and not "win"   in f"{root}/{file}"): 
                 export_headers.append(f'"{root}/{file}"')
+for folder in ["icu", "std", "shared", "util"]:
+    for root, _, files in os.walk(f"{module_path}/boost/libs/locale/src/{folder}"):
+        for file in files:
+            if not "iconv" in file:
+                export_headers.append(f'"{root}/{file}"')
+export_headers.append(f'"{module_path}/boost/libs/locale/src/encoding/codepage.cpp"')
 export_headers.append(f'"{module_path}/boost/libs/stacktrace/src/basic.cpp"')
 
 export_namespaces = [

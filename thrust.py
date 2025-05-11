@@ -4,19 +4,34 @@ import re
 
 repo              = "cccl"
 src_dirs          = ["./thrust", "./libcudacxx/include"]
-import_modules    = ["std", "tbb"]
-import_headers    = []
-for file in os.listdir(f"{module_path}/{repo}/libcudacxx/include/cuda/std"):
-    if os.path.isfile(file):
-        import_headers.append(file)
-
+import_modules    = ["std", "cuda", "tbb"]
+import_headers    = [
+    "<cuda/__cccl_config>",
+    "<cuda/std/detail/__config>",
+    "<cuda/std/__cccl/compiler.h>",
+    "<cuda/std/__cccl/preprocessor.h>",
+    "<cuda/std/__cccl/assert.h>",
+    "<cuda/std/__cccl/attributes.h>",
+    "<cuda/std/__cccl/deprecated.h>",
+    "<cuda/std/__cccl/diagnostic.h>",
+    "<cuda/std/__cccl/dialect.h>",
+    "<cuda/std/__cccl/execution_space.h>",
+    "<cuda/std/__cccl/sequence_access.h>",
+    "<cuda/std/__cccl/version.h>",
+    "<cuda/std/__cccl/visibility.h>",
+    "<cuda/std/__internal/namespaces.h>",
+    "<nv/target>"
+]
 import_macros     = {
+    "_CCCL_TEMPLATE(...)":  "template <__VA_ARGS__>",
+    "_CCCL_REQUIRES(...)":  "requires __VA_ARGS__",
+    "_CCCL_AND":            "&&",
     "THRUST_HOST_SYSTEM":   "THRUST_HOST_SYSTEM_CPP",
     "THRUST_DEVICE_SYSTEM": "THRUST_DEVICE_SYSTEM_TBB"
 }
-export_module     = "thrust.tbb"
+export_module     = "thrust"
 export_headers    = []
-for root, _, files in os.walk(f"{module_path}/{repo}/thrust/thrust"):
+for root, _, files in os.walk(f"{module_path}/cccl/thrust/thrust"):
     for file in files:
         if not "openmp" in f"{root}/{file}" and \
            not "cuda"   in f"{root}/{file}" and \
