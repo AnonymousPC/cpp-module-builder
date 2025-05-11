@@ -1,0 +1,21 @@
+[submodule "src/boost"]
+	path = src/boost
+	url = https://github.com/boostorg/boost.git
+[submodule "src/cccl"]
+	path = src/cccl
+	url = https://github.com/NVIDIA/cccl.git
+[submodule "src/clblast"]
+	path = src/clblast
+	url = https://github.com/CNugteren/CLBlast.git
+[submodule "src/Eigen"]
+	path = src/Eigen
+	url = https://gitlab.com/libeigen/eigen.git
+[submodule "src/plf"]
+	path = src/plf
+	url = https://github.com/mattreecebentley/plf_hive
+[submodule "src/stdexec"]
+	path = src/stdexec
+	url = https://github.com/NVIDIA/stdexec.git
+[submodule "src/tbb"]
+	path = src/tbb
+	url = https://github.com/uxlfoundation/oneTBB.git
