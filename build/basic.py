@@ -67,11 +67,11 @@ def build(repo,                                    # "stdexec"
           on_failure    = lambda           : None  # print("remove above 'static' from the function declaration")
          ):
     
-    run(f"cd src/{repo} && git fetch --recurse-submodules")
+  #  run(f"cd src/{repo} && git fetch --recurse-submodules")
     run(f"cd src/{repo} && git reset --hard origin/HEAD --recurse-submodules")
 
     for src_dir in src_dirs:
-        for root, _, files in os.walk(f"src/{repo}/{src_dir}"): # usr/module/stdexec/include
+        for root, _, files in os.walk(f"./src/{repo}/{src_dir.replace("./", "")}"): # usr/module/stdexec/include
             for file in files:
                 try:
                     data = ""
@@ -87,7 +87,7 @@ def build(repo,                                    # "stdexec"
 
                     data = re.sub(r'\bnamespace(?=[\s\\]*{)', f"inline namespace __anonymous_{count()}__", data) # namespace {}
 
-                    data = on_preprocess(f"{root}/{file}", data)
+                    data = on_preprocess(f"{root}/{file}".replace('\\', '/'), data)
 
                     with open(f"{root}/{file}", 'w', encoding="utf-8") as writer:
                         writer.write(data)
@@ -95,7 +95,7 @@ def build(repo,                                    # "stdexec"
                 except Exception as e:
                     print(f"{red}preprocessing {file} failed: {e}{white}")
 
-    with open(f"src/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
+    with open(f"./src/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
         cppm.write(global_module) # module;
 
         for import_macro in import_macros.items():
@@ -105,24 +105,28 @@ def build(repo,                                    # "stdexec"
             cppm.write(f"#include {import_header}\n") # include <header/file>
 
         cppm.write(f"export module {export_module};\n") # export module stdexec;
+
         for import_module in import_modules:
             cppm.write(f"import {import_module};\n") # import std;
             
         for export_header in export_headers:
-            cppm.write(f"#include {export_header}\n") # include <stdexec/execution.hpp>
+            if re.match(r'<[^<>]*>', export_header):
+                cppm.write(f"#include {export_header}\n") # include <stdexec/execution.hpp>
+            else:
+                cppm.write(f'#include "{os.path.abspath(export_header)}"\n') # include <stdexec/implemention.cpp>
 
     while True:
         try:
             if compiler == "g++":
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
-                    f"{' '.join(f"-Imodule/{repo}/{src_dir}" for src_dir in src_dirs)} "
+                    f"{' '.join(f"-Isrc/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
                     f"-I{include_path} "
                     f"-c src/{export_module}.cppm")
             elif compiler == "clang++":
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
-                    f"{' '.join(f"-Imodule/{repo}/{src_dir}" for src_dir in src_dirs)} "
+                    f"{' '.join(f"-Isrc/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
                     f"-I{include_path} "
                     f"-c src/{export_module}.cppm "
                     f"--precompile -o module/pcm.cache/{export_module}.pcm")
@@ -196,7 +200,6 @@ module;
 #include <cwctype>
 #include <deque>
 #include <exception>
-#include <execution>
 #include <expected>
 #include <filesystem>
 #include <flat_map>
@@ -260,8 +263,25 @@ module;
 #include <vector>
 #include <version>
 #ifdef _WIN32
-    #include <windows.h>
-    #include <winsock2.h>
+    #include <windows.h>  
+    #include <errhandlingapi.h>                                                             
+    #include <fileapi.h>                                                                    
+    #include <handleapi.h>                                                                  
+    #include <heapapi.h>                                                                    
+    #include <libloaderapi.h>                                                               
+    #include <memoryapi.h>                                                                                                                                                                                     
+    #include <processthreadsapi.h>                                                          
+    #include <profileapi.h>                                                                 
+    #include <stringapiset.h>                                                               
+    #include <synchapi.h>                                                                   
+    #include <sysinfoapi.h>                                                                 
+    #include <threadpoollegacyapiset.h>                                                     
+    #include <timezoneapi.h>                                                                                                                                
+    #include <wincrypt.h>                                                                 
+    #include <winnt.h> 
+    #include <winsock2.h>   
+    #include <ws2tcpip.h>                                                                  
+    #include <winbase.h>    
 #elifdef __linux__
     // Nothing...
 #elifdef __APPLE__

@@ -1,0 +1,207 @@
+
+module;
+#include <algorithm>
+#include <any>
+#include <array>
+#include <atomic>
+#include <barrier>
+#include <bit>
+#include <bitset>
+#include <cassert>
+#include <cctype>
+#include <cerrno>
+#include <cfenv>
+#include <cfloat>
+#include <charconv>
+#include <chrono>
+#include <cinttypes>
+#include <climits>
+#include <clocale>
+#include <cmath>
+#include <codecvt>
+#include <compare>
+#include <complex>
+#include <concepts>
+#include <condition_variable>
+#include <coroutine>
+#include <csetjmp>
+#include <csignal>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <cuchar>
+#include <cwchar>
+#include <cwctype>
+#include <deque>
+#include <exception>
+#include <expected>
+#include <filesystem>
+#include <flat_map>
+#include <format>
+#include <forward_list>
+#include <fstream>
+#include <functional>
+#include <future>
+#include <initializer_list>
+#include <iomanip>
+#include <ios>
+#include <iosfwd>
+#include <iostream>
+#include <istream>
+#include <iterator>
+#include <latch>
+#include <limits>
+#include <list>
+#include <locale>
+#include <map>
+#include <memory>
+#include <memory_resource>
+#include <mutex>
+#include <new>
+#include <numbers>
+#include <numeric>
+#include <optional>
+#include <ostream>
+#include <print>
+#include <queue>
+#include <random>
+#include <ranges>
+#include <ratio>
+#include <regex>
+#include <scoped_allocator>
+#include <semaphore>
+#include <set>
+#include <shared_mutex>
+#include <source_location>
+#include <span>
+#include <sstream>
+#include <stack>
+#include <stdexcept>
+#include <stop_token>
+#include <streambuf>
+#include <string>
+#include <string_view>
+#include <strstream>
+#include <syncstream>
+#include <system_error>
+#include <thread>
+#include <tuple>
+#include <type_traits>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <valarray>
+#include <variant>
+#include <vector>
+#include <version>
+#ifdef _WIN32
+    #include <windows.h>  
+    #include <errhandlingapi.h>                                                             
+    #include <fileapi.h>                                                                    
+    #include <handleapi.h>                                                                  
+    #include <heapapi.h>                                                                    
+    #include <libloaderapi.h>                                                               
+    #include <memoryapi.h>                                                                                                                                                                                     
+    #include <processthreadsapi.h>                                                          
+    #include <profileapi.h>                                                                 
+    #include <stringapiset.h>                                                               
+    #include <synchapi.h>                                                                   
+    #include <sysinfoapi.h>                                                                 
+    #include <threadpoollegacyapiset.h>                                                     
+    #include <timezoneapi.h>                                                                                                                                
+    #include <wincrypt.h>                                                                 
+    #include <winnt.h> 
+    #include <winsock2.h>   
+    #include <ws2tcpip.h>                                                                  
+    #include <winbase.h>    
+#elifdef __linux__
+    // Nothing...
+#elifdef __APPLE__
+    #define _XOPEN_SOURCE
+    #include <dirent.h>
+    #include <dispatch/dispatch.h>
+    #include <mach/host_info.h>
+    #include <mach/task_info.h>
+    #include <mach/arm/thread_status.h>
+    #include <mach-o/dyld.h>
+    #include <mach-o/nlist.h>
+    #include <netdb.h>
+    #include <net/route.h>
+    #include <os/workgroup.h>
+    #include <sys/event.h>
+    #include <sys/fcntl.h>
+    #include <sys/ioctl.h>
+    #include <sys/mount.h>
+    #include <sys/poll.h>
+    #include <sys/proc.h>
+    #include <sys/proc_info.h>
+    #include <sys/select.h>
+    #include <sys/socket.h>
+    #include <sys/stat.h>
+    #include <sys/sysctl.h>
+    #include <sys/termios.h>
+    #include <sys/time.h>
+    #include <sys/unistd.h>
+    #include <sys/_select.h>
+    #include <ucontext.h>
+    #include <unwind.h>
+    #include <utime.h>
+#endif
+#ifdef __GNUC__
+    #include <cxxabi.h>
+#endif
+#if defined(__GNUC__) and not defined(__clang__)
+    #include <stacktrace>
+#elifdef __clang__
+    #include <mdspan>
+#endif
+#define TBB_PREVIEW_CONCURRENT_LRU_CACHE true
+#define __TBB_PREVIEW_PARALLEL_PHASE true
+#include <hwloc.h>
+export module tbb;
+import std;
+#include <tbb/tbb.h>
+#include "F:\cpp-module-builder\src\tbb\src\tbb\address_waiter.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\allocator.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\arena.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\arena_slot.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\concurrent_bounded_queue.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\exception.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\global_control.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\governor.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\itt_notify.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\market.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\misc.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\misc_ex.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\observer_proxy.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\parallel_pipeline.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\private_server.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\profiling.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\queuing_rw_mutex.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\rml_tbb.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\rtm_mutex.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\rtm_rw_mutex.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\semaphore.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\small_object_pool.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\task.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\task_dispatcher.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\task_group_context.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\tcm_adaptor.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\threading_control.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\thread_dispatcher.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\thread_request_serializer.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbb\version.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbbbind\tbb_bind.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbbmalloc\backend.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbbmalloc\backref.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbbmalloc\frontend.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbbmalloc\large_objects.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbbmalloc\tbbmalloc.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbbmalloc_proxy\function_replacement.cpp"
+#include "F:\cpp-module-builder\src\tbb\src\tbbmalloc_proxy\proxy.cpp"

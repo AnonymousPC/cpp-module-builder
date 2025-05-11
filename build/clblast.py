@@ -4,19 +4,24 @@ import os
 repo              = "clblast"
 src_dirs          = ["./include", "./src"]
 import_modules    = ["std"]
-import_headers    = ["<OpenCL/opencl.h>"]
+import_headers    = []
+if system == "windows" or system == "linux":
+    import_headers.append("<CL/opencl.h>")
+elif system == "macos":
+    import_headers.append("<OpenCL/opencl.h>")
+
 import_macros     = {"OPENCL_API": "true"}
 export_module     = "clblast"
 export_headers    = ["<clblast.h>"]
-export_headers.append(f'"module/{repo}/src/utilities/utilities.cpp"')
-for root, _, files in os.walk(f"module/{repo}/src"):
+export_headers.append(f"./src/clblast/src/utilities/utilities.cpp")
+for root, _, files in os.walk(f"./src/clblast/src"):
     for file in files:
         if     file.endswith(".cpp")                 and \
            not file.endswith("clblast_c.cpp")        and \
            not file.endswith("clblast_netlib_c.cpp") and \
            not file.endswith("clblast_cuda.cpp")     and \
-           not "tuning" in f"{root}/{file}":
-            export_headers.append(f'"{root}/{file}"')
+           not "tuning" in f"./{root}/{file}":
+            export_headers.append(f"./{root}/{file}")
 
 export_namespaces = ["clblast"]
 

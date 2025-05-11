@@ -1,0 +1,351 @@
+
+module;
+#include <algorithm>
+#include <any>
+#include <array>
+#include <atomic>
+#include <barrier>
+#include <bit>
+#include <bitset>
+#include <cassert>
+#include <cctype>
+#include <cerrno>
+#include <cfenv>
+#include <cfloat>
+#include <charconv>
+#include <chrono>
+#include <cinttypes>
+#include <climits>
+#include <clocale>
+#include <cmath>
+#include <codecvt>
+#include <compare>
+#include <complex>
+#include <concepts>
+#include <condition_variable>
+#include <coroutine>
+#include <csetjmp>
+#include <csignal>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <cuchar>
+#include <cwchar>
+#include <cwctype>
+#include <deque>
+#include <exception>
+#include <expected>
+#include <filesystem>
+#include <flat_map>
+#include <format>
+#include <forward_list>
+#include <fstream>
+#include <functional>
+#include <future>
+#include <initializer_list>
+#include <iomanip>
+#include <ios>
+#include <iosfwd>
+#include <iostream>
+#include <istream>
+#include <iterator>
+#include <latch>
+#include <limits>
+#include <list>
+#include <locale>
+#include <map>
+#include <memory>
+#include <memory_resource>
+#include <mutex>
+#include <new>
+#include <numbers>
+#include <numeric>
+#include <optional>
+#include <ostream>
+#include <print>
+#include <queue>
+#include <random>
+#include <ranges>
+#include <ratio>
+#include <regex>
+#include <scoped_allocator>
+#include <semaphore>
+#include <set>
+#include <shared_mutex>
+#include <source_location>
+#include <span>
+#include <sstream>
+#include <stack>
+#include <stdexcept>
+#include <stop_token>
+#include <streambuf>
+#include <string>
+#include <string_view>
+#include <strstream>
+#include <syncstream>
+#include <system_error>
+#include <thread>
+#include <tuple>
+#include <type_traits>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <valarray>
+#include <variant>
+#include <vector>
+#include <version>
+#ifdef _WIN32
+    #include <windows.h>  
+    #include <errhandlingapi.h>                                                             
+    #include <fileapi.h>                                                                    
+    #include <handleapi.h>                                                                  
+    #include <heapapi.h>                                                                    
+    #include <libloaderapi.h>                                                               
+    #include <memoryapi.h>                                                                                                                                                                                     
+    #include <processthreadsapi.h>                                                          
+    #include <profileapi.h>                                                                 
+    #include <stringapiset.h>                                                               
+    #include <synchapi.h>                                                                   
+    #include <sysinfoapi.h>                                                                 
+    #include <threadpoollegacyapiset.h>                                                     
+    #include <timezoneapi.h>                                                                                                                                
+    #include <wincrypt.h>                                                                 
+    #include <winnt.h> 
+    #include <winsock2.h>   
+    #include <ws2tcpip.h>                                                                  
+    #include <winbase.h>    
+#elifdef __linux__
+    // Nothing...
+#elifdef __APPLE__
+    #define _XOPEN_SOURCE
+    #include <dirent.h>
+    #include <dispatch/dispatch.h>
+    #include <mach/host_info.h>
+    #include <mach/task_info.h>
+    #include <mach/arm/thread_status.h>
+    #include <mach-o/dyld.h>
+    #include <mach-o/nlist.h>
+    #include <netdb.h>
+    #include <net/route.h>
+    #include <os/workgroup.h>
+    #include <sys/event.h>
+    #include <sys/fcntl.h>
+    #include <sys/ioctl.h>
+    #include <sys/mount.h>
+    #include <sys/poll.h>
+    #include <sys/proc.h>
+    #include <sys/proc_info.h>
+    #include <sys/select.h>
+    #include <sys/socket.h>
+    #include <sys/stat.h>
+    #include <sys/sysctl.h>
+    #include <sys/termios.h>
+    #include <sys/time.h>
+    #include <sys/unistd.h>
+    #include <sys/_select.h>
+    #include <ucontext.h>
+    #include <unwind.h>
+    #include <utime.h>
+#endif
+#ifdef __GNUC__
+    #include <cxxabi.h>
+#endif
+#if defined(__GNUC__) and not defined(__clang__)
+    #include <stacktrace>
+#elifdef __clang__
+    #include <mdspan>
+#endif
+#define BOOST_LOCALE_WITH_ICU true
+#define BOOST_LOCALE_NO_WINAPI_BACKEND true
+#define BOOST_LOCALE_NO_POSIX_BACKEND 
+#define BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED true
+#define BOOST_USE_WINDOWS_H true
+#include <jerror.h>
+#include <jpeglib.h>
+#include <openssl/ssl.h>
+#include <png.h>
+#include <tiff.h>
+#include <tiffio.h>
+#include <tiffio.hxx>
+#include <unicode/brkiter.h>
+#include <unicode/calendar.h>
+#include <unicode/coll.h>
+#include <unicode/datefmt.h>
+#include <unicode/gregocal.h>
+#include <unicode/locid.h>
+#include <unicode/normlzr.h>
+#include <unicode/numfmt.h>
+#include <unicode/rbbi.h>
+#include <unicode/rbnf.h>
+#include <unicode/smpdtfmt.h>
+#include <unicode/stringpiece.h>
+#include <unicode/timezone.h>
+#include <unicode/ustring.h>
+#include <unicode/ucasemap.h>
+#include <unicode/uchar.h>
+#include <unicode/ucnv.h>
+#include <unicode/ucnv_err.h>
+#include <unicode/unistr.h>
+#include <unicode/ustring.h>
+#include <unicode/utf.h>
+#include <unicode/utf16.h>
+#include <unicode/utypes.h>
+#include <unicode/uversion.h>
+#include <zlib.h>
+export module boost;
+import std;
+#include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
+#include <boost/beast.hpp>
+#include <boost/circular_buffer.hpp>
+#include <boost/date_time.hpp>
+#include <boost/dynamic_bitset.hpp>
+#include <boost/dll.hpp>
+#include <boost/gil.hpp>
+#include <boost/gil/extension/io/bmp.hpp>
+#include <boost/gil/extension/io/jpeg.hpp>
+#include <boost/gil/extension/io/png.hpp>
+#include <boost/gil/extension/io/pnm.hpp>
+#include <boost/gil/extension/io/targa.hpp>
+#include <boost/gil/extension/io/tiff.hpp>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/adjacency_matrix.hpp>
+#include <boost/graph/astar_search.hpp>
+#include <boost/graph/breadth_first_search.hpp>
+#include <boost/graph/depth_first_search.hpp>
+#include <boost/graph/dijkstra_shortest_paths.hpp>
+#include <boost/iostreams/filtering_stream.hpp>
+#include <boost/iostreams/filter/bzip2.hpp>
+#include <boost/iostreams/filter/gzip.hpp>
+#include <boost/iostreams/filter/zlib.hpp>
+#include <boost/locale.hpp>
+#include <boost/mysql.hpp>
+#include <boost/process.hpp>
+#include <boost/spirit/home/classic.hpp>
+#include <boost/spirit/home/karma.hpp>
+#include <boost/spirit/home/lex.hpp>
+#include <boost/spirit/home/qi.hpp>
+#include <boost/spirit/home/x3.hpp>
+#include <boost/stacktrace.hpp>
+#include "F:\cpp-module-builder\src\boost\libs\charconv\src\float128_impl.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\charconv\src\from_chars.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\charconv\src\from_chars_float_impl.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\charconv\src\to_chars.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\charconv\src\to_chars_float_impl.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\atomic_ref.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\atomic_tools.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\codecvt_error_category.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\directory.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\error_handling.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\exception.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\operations.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\path.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\path_traits.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\platform_config.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\portability.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\private_config.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\unique_path.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\utf8_codecvt_facet.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\windows_file_codecvt.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\windows_file_codecvt.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\filesystem\src\windows_tools.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\iostreams\src\bzip2.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\iostreams\src\file_descriptor.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\iostreams\src\gzip.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\iostreams\src\lzma.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\iostreams\src\mapped_file.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\iostreams\src\zlib.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\iostreams\src\zstd.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\encoding\codepage.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\encoding\uconv_converter.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\encoding\wconv_converter.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\all_generator.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\boundary.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\cdata.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\codecvt.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\codecvt.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\collator.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\conversion.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\date_time.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\formatter.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\formatter.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\formatters_cache.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\formatters_cache.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\icu_backend.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\icu_backend.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\icu_util.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\numeric.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\time_zone.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\icu\uconv.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\date_time.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\format.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\formatting.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\generator.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\ids.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\ios_prop.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\localization_backend.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\message.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\message.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\mo_hash.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\mo_lambda.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\mo_lambda.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\shared\std_collate_adapter.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\std\all_generator.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\std\codecvt.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\std\collate.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\std\converter.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\std\numeric.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\std\std_backend.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\std\std_backend.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\codecvt_converter.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\default_locale.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\encoding.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\encoding.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\foreach_char.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\gregorian.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\gregorian.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\info.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\locale_data.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\make_std_unique.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\numeric.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\numeric_conversion.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\timezone.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\util\win_codepages.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\win32\all_generator.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\win32\api.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\win32\collate.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\win32\converter.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\win32\lcid.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\win32\lcid.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\win32\numeric.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\win32\win_backend.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\locale\src\win32\win_backend.hpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\environment.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\error.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\pid.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\shell.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\detail\environment_win.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\detail\last_error.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\detail\process_handle_windows.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\detail\throw_error.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\detail\utf8.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\ext\cmd.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\ext\cwd.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\ext\env.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\ext\exe.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\ext\proc_info.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\process\src\windows\default_launcher.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\system\src\error_code.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\thread\src\future.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\thread\src\tss_null.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\thread\src\win32\thread.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\thread\src\win32\thread_primitives.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\thread\src\win32\tss_dll.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\thread\src\win32\tss_pe.cpp"
+#include "F:\cpp-module-builder\src\boost\libs\stacktrace\src\basic.cpp"

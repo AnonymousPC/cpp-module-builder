@@ -31,12 +31,12 @@ import_macros     = {
 }
 export_module     = "thrust"
 export_headers    = []
-for root, _, files in os.walk(f"module/cccl/thrust/thrust"):
+for root, _, files in os.walk(f"./src/cccl/thrust/thrust"):
     for file in files:
         if not "openmp" in f"{root}/{file}" and \
            not "cuda"   in f"{root}/{file}" and \
            not "detail" in f"{root}/{file}":
-            export_headers.append(f'"{root}/{file}"')
+            export_headers.append(f"./{root}/{file}")
 
 export_namespaces = ["thrust", "cuda"]
 

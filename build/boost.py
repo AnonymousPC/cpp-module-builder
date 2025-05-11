@@ -5,13 +5,13 @@ import subprocess
 
 repo     = "boost"
 src_dirs = []
-for subrepo_status in subprocess.run(f"cd module/boost && git submodule status", shell=True, check=True, capture_output=True, text=True).stdout.splitlines():
+for subrepo_status in subprocess.run(f"cd ./src/boost && git submodule status", shell=True, check=True, capture_output=True, text=True).stdout.splitlines():
     try:
         subrepo = re.match(r'^[ \+][0-9a-f]+ libs/([\w/]+) .*$', subrepo_status)[1] # 123456 libs/asio (boost-1.0.0)
-        if os.path.isdir(f"module/boost/libs/{subrepo}/include"):
-            src_dirs.append(f"./libs/{subrepo}/include") 
-        if os.path.isdir(f"module/boost/libs/{subrepo}/src"):
-            src_dirs.append(f"./libs/{subrepo}/src") 
+        if os.path.isdir(f"./src/boost/libs/{subrepo}/include"):
+            src_dirs.append       (f"./libs/{subrepo}/include") 
+        if os.path.isdir(f"./src/boost/libs/{subrepo}/src"):
+            src_dirs.append       (f"./libs/{subrepo}/src")
     except:
         pass
 
@@ -50,11 +50,13 @@ import_headers = [
     "<unicode/uversion.h>",
     "<zlib.h>",
 ]
+    
 import_macros = {
     "BOOST_LOCALE_WITH_ICU":                    "true",
     "BOOST_LOCALE_NO_WINAPI_BACKEND":           "true",
     "BOOST_LOCALE_NO_POSIX_BACKEND":            "true",
-    "BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED": "true"
+    "BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED": "true",
+    "BOOST_USE_WINDOWS_H":                      "true"
 }
 if system == "windows":
     import_macros["BOOST_LOCALE_NO_POSIX_BACKEND"] = ""
@@ -97,19 +99,14 @@ export_headers = [
     "<boost/spirit/home/x3.hpp>",
     "<boost/stacktrace.hpp>",
 ]
-for subrepo in ["charconv", "datetime", "filesystem", "iostreams", "process", "system", "thread"]:
-    for root, _, files in os.walk(f"module/boost/libs/{subrepo}/src"):
+for subrepo in ["charconv", "datetime", "filesystem", "iostreams", "locale", "process", "system", "thread"]:
+    for root, _, files in os.walk(f"./src/boost/libs/{subrepo}/src"):
         for file in files:
-            if ( system == "windows"                     and not "posix" in f"{root}/{file}") or \
-               ((system == "linux" or system == "macos") and not "win"   in f"{root}/{file}"): 
-                export_headers.append(f'"{root}/{file}"')
-for folder in ["icu", "std", "shared", "util"]:
-    for root, _, files in os.walk(f"module/boost/libs/locale/src/{folder}"):
-        for file in files:
-            if not "iconv" in file:
-                export_headers.append(f'"{root}/{file}"')
-export_headers.append(f'"module/boost/libs/locale/src/encoding/codepage.cpp"')
-export_headers.append(f'"module/boost/libs/stacktrace/src/basic.cpp"')
+            if ( system == "windows"                     and not "posix" in f"{root}/{file}" and not "pthread" in f"{root}/{file}" and not "iconv" in f"{root}/{file}") or \
+               ((system == "linux" or system == "macos") and not "win"   in f"{root}/{file}" and not "wconv"   in f"{root}/{file}" and not "iconv" in f"{root}/{file}"): 
+                export_headers.append(f"./{root}/{file}")
+
+export_headers.append(f"./src/boost/libs/stacktrace/src/basic.cpp")
 
 export_namespaces = [
     "std",
@@ -153,26 +150,29 @@ def on_preprocess(file, data):
     data = re.sub(r'(?<=::)template(?=\s+\w+\()',                                                     "", data                    )
 
     # certain file
-    if file.endswith("./libs/charconv/include/boost/charconv/detail/fast_float/fast_table.hpp"):
+    if file == "./src/boost/libs/charconv/include/boost/charconv/detail/fast_float/fast_table.hpp":
         data = re.sub(r'^constexpr', "constexpr static", data, flags=re.MULTILINE)
 
-    if file.endswith("./libs/charconv/src/from_chars.cpp") or \
-       file.endswith("./libs/charconv/src/to_chars.cpp"  ):
+    if file == "./src/boost/libs/charconv/src/from_chars.cpp" or \
+       file == "./src/boost/libs/charconv/src/to_chars.cpp":
         data = re.sub(r'(?<!template <typename T>\n)^boost', "export boost", data, flags=re.MULTILINE)
         data = re.sub(r'static constexpr',                   "constexpr",    data)
         data = re.sub(r'static void',                        "void",         data)
 
-    if file.endswith("./libs/locale/src/shared/date_time.cpp"):
+    if file == "./src/boost/libs/locale/src/shared/date_time.cpp":
         data = re.sub(r'using namespace period;', "",                    data)
         data = re.sub(r'period_type',             "period::period_type", data)
 
-    if file.endswith("./libs/locale/src/shared/mo_hash.hpp"):
+    if file == "./src/boost/libs/locale/src/shared/mo_hash.hpp":
         data = "#pragma once\n" + data
 
-    if file.endswith("./libs/property_map/include/boost/property_map/property_map.hpp"):
+    if file == "./src/boost/libs/process/include/boost/process/v2/ext/detail/proc_info.hpp":
+        data = re.sub(r'ULONG NTAPI', 'extern "C" ULONG API')
+
+    if file == "./src/boost/libs/property_map/include/boost/property_map/property_map.hpp":
         data = re.sub(r'template(?= <class T.*\n\s*inline)', "export template", data)
 
-    if file.endswith("./libs/thread/src/pthread/once_atomic.cpp"):
+    if file == "./src/boost/libs/thread/src/pthread/once_atomic.cpp":
         data = "#pragma once\n" + data
 
     return data

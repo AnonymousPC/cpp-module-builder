@@ -11,14 +11,13 @@ import_macros     = {
     "__TBB_PREVIEW_PARALLEL_PHASE"    : "true"
 }
 export_module     = "tbb"
-export_headers    = [
-    "<tbb/tbb.h>"
-    "<tbb/concurrent_lru_cache.h>"
-]
-for root, _, files in os.walk(f"module/{repo}/src"):
+export_headers    = ["<tbb/tbb.h>"]
+for root, _, files in os.walk(f"./src/tbb/src"):
     for file in files:
-        if file.endswith(".cpp"):
-            export_headers.append(f'"{root}/{file}"')
+        if file.endswith(".cpp")          and \
+           not "main.cpp"         in file and \
+           not "dynamic_link.cpp" in file:
+            export_headers.append(f"./{root}/{file}")
 
 export_namespaces = ["tbb"]
 
@@ -31,16 +30,16 @@ def on_preprocess(file, data):
     data = re.sub(r'struct _malloc_zone_t', "malloc_zone_t", data)
 
     # certain file
-    if file.endswith("./include/oneapi/tbb/detail/_task_handle.h"):
+    if file.endswith("./src/tbb/include/oneapi/tbb/detail/_task_handle.h"):
         data = re.sub(r'^(?= \w)', "static" , data, flags=re.MULTILINE)
 
-    if file.endswith("./src/tbb/governor.cpp"):
+    if file.endswith("./src/tbb/src/tbb/governor.cpp"):
         data = re.sub(r'system_topology', "__system_topology__", data)
 
-    if file.endswith("./src/tbb/parallel_pipeline.cpp"):
+    if file.endswith("./src/tbb/src/tbb/parallel_pipeline.cpp"):
         data = re.sub(r'(?<!d1::)task_group_context', "d1::task_group_context", data)
 
-    if file.endswith("./src/tbbmalloc/frontend.cpp"):
+    if file.endswith("./src/tbb/src/tbbmalloc/frontend.cpp"):
         data = re.sub(r'^(?=void mallocThreadShutdownNotification)', 'extern "C" ', data, flags=re.MULTILINE)
 
     return data

@@ -1,0 +1,317 @@
+
+module;
+#include <algorithm>
+#include <any>
+#include <array>
+#include <atomic>
+#include <barrier>
+#include <bit>
+#include <bitset>
+#include <cassert>
+#include <cctype>
+#include <cerrno>
+#include <cfenv>
+#include <cfloat>
+#include <charconv>
+#include <chrono>
+#include <cinttypes>
+#include <climits>
+#include <clocale>
+#include <cmath>
+#include <codecvt>
+#include <compare>
+#include <complex>
+#include <concepts>
+#include <condition_variable>
+#include <coroutine>
+#include <csetjmp>
+#include <csignal>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <cuchar>
+#include <cwchar>
+#include <cwctype>
+#include <deque>
+#include <exception>
+#include <expected>
+#include <filesystem>
+#include <flat_map>
+#include <format>
+#include <forward_list>
+#include <fstream>
+#include <functional>
+#include <future>
+#include <initializer_list>
+#include <iomanip>
+#include <ios>
+#include <iosfwd>
+#include <iostream>
+#include <istream>
+#include <iterator>
+#include <latch>
+#include <limits>
+#include <list>
+#include <locale>
+#include <map>
+#include <memory>
+#include <memory_resource>
+#include <mutex>
+#include <new>
+#include <numbers>
+#include <numeric>
+#include <optional>
+#include <ostream>
+#include <print>
+#include <queue>
+#include <random>
+#include <ranges>
+#include <ratio>
+#include <regex>
+#include <scoped_allocator>
+#include <semaphore>
+#include <set>
+#include <shared_mutex>
+#include <source_location>
+#include <span>
+#include <sstream>
+#include <stack>
+#include <stdexcept>
+#include <stop_token>
+#include <streambuf>
+#include <string>
+#include <string_view>
+#include <strstream>
+#include <syncstream>
+#include <system_error>
+#include <thread>
+#include <tuple>
+#include <type_traits>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <valarray>
+#include <variant>
+#include <vector>
+#include <version>
+#ifdef _WIN32
+    #include <windows.h>  
+    #include <errhandlingapi.h>                                                             
+    #include <fileapi.h>                                                                    
+    #include <handleapi.h>                                                                  
+    #include <heapapi.h>                                                                    
+    #include <libloaderapi.h>                                                               
+    #include <memoryapi.h>                                                                                                                                                                                     
+    #include <processthreadsapi.h>                                                          
+    #include <profileapi.h>                                                                 
+    #include <stringapiset.h>                                                               
+    #include <synchapi.h>                                                                   
+    #include <sysinfoapi.h>                                                                 
+    #include <threadpoollegacyapiset.h>                                                     
+    #include <timezoneapi.h>                                                                                                                                
+    #include <wincrypt.h>                                                                 
+    #include <winnt.h> 
+    #include <winsock2.h>   
+    #include <ws2tcpip.h>                                                                  
+    #include <winbase.h>    
+#elifdef __linux__
+    // Nothing...
+#elifdef __APPLE__
+    #define _XOPEN_SOURCE
+    #include <dirent.h>
+    #include <dispatch/dispatch.h>
+    #include <mach/host_info.h>
+    #include <mach/task_info.h>
+    #include <mach/arm/thread_status.h>
+    #include <mach-o/dyld.h>
+    #include <mach-o/nlist.h>
+    #include <netdb.h>
+    #include <net/route.h>
+    #include <os/workgroup.h>
+    #include <sys/event.h>
+    #include <sys/fcntl.h>
+    #include <sys/ioctl.h>
+    #include <sys/mount.h>
+    #include <sys/poll.h>
+    #include <sys/proc.h>
+    #include <sys/proc_info.h>
+    #include <sys/select.h>
+    #include <sys/socket.h>
+    #include <sys/stat.h>
+    #include <sys/sysctl.h>
+    #include <sys/termios.h>
+    #include <sys/time.h>
+    #include <sys/unistd.h>
+    #include <sys/_select.h>
+    #include <ucontext.h>
+    #include <unwind.h>
+    #include <utime.h>
+#endif
+#ifdef __GNUC__
+    #include <cxxabi.h>
+#endif
+#if defined(__GNUC__) and not defined(__clang__)
+    #include <stacktrace>
+#elifdef __clang__
+    #include <mdspan>
+#endif
+#define _CCCL_TEMPLATE(...) template <__VA_ARGS__>
+#define _CCCL_REQUIRES(...) requires __VA_ARGS__
+#define _CCCL_AND &&
+#define THRUST_HOST_SYSTEM THRUST_HOST_SYSTEM_CPP
+#define THRUST_DEVICE_SYSTEM THRUST_DEVICE_SYSTEM_TBB
+#include <cuda/__cccl_config>
+#include <cuda/std/detail/__config>
+#include <cuda/std/__cccl/compiler.h>
+#include <cuda/std/__cccl/preprocessor.h>
+#include <cuda/std/__cccl/assert.h>
+#include <cuda/std/__cccl/attributes.h>
+#include <cuda/std/__cccl/deprecated.h>
+#include <cuda/std/__cccl/diagnostic.h>
+#include <cuda/std/__cccl/dialect.h>
+#include <cuda/std/__cccl/execution_space.h>
+#include <cuda/std/__cccl/sequence_access.h>
+#include <cuda/std/__cccl/version.h>
+#include <cuda/std/__cccl/visibility.h>
+#include <cuda/std/__internal/namespaces.h>
+#include <nv/target>
+export module thrust;
+import std;
+import cuda;
+import tbb;
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\addressof.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\adjacent_difference.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\advance.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\allocate_unique.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\binary_search.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\complex.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\copy.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\count.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_allocator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_delete.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_free.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_make_unique.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_malloc.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_malloc_allocator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_new.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_new_allocator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_ptr.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_reference.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\device_vector.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\distance.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\equal.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\execution_policy.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\extrema.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\fill.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\find.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\for_each.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\functional.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\gather.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\generate.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\host_vector.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\inner_product.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\logical.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\memory.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\merge.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mismatch.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\pair.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\partition.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\per_device_resource.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\random.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\reduce.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\remove.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\replace.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\reverse.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\scan.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\scatter.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\sequence.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\set_operations.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\shuffle.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\sort.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\swap.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system_error.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\tabulate.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\transform.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\transform_reduce.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\transform_scan.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\tuple.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\uninitialized_copy.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\uninitialized_fill.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\unique.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\universal_allocator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\universal_ptr.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\universal_vector.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\version.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\zip_function.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\constant_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\counting_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\discard_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\iterator_adaptor.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\iterator_categories.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\iterator_facade.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\iterator_traits.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\offset_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\permutation_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\retag.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\reverse_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\shuffle_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\tabulate_output_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\transform_input_output_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\transform_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\transform_output_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\iterator\zip_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\allocator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\device_memory_resource.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\disjoint_pool.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\disjoint_sync_pool.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\disjoint_tls_pool.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\fancy_pointer_resource.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\host_memory_resource.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\memory_resource.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\new.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\polymorphic_adaptor.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\pool.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\pool_options.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\sync_pool.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\tls_pool.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\universal_memory_resource.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\mr\validator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\random\discard_block_engine.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\random\linear_congruential_engine.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\random\linear_feedback_shift_engine.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\random\normal_distribution.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\random\subtract_with_carry_engine.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\random\uniform_int_distribution.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\random\uniform_real_distribution.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\random\xor_combine_engine.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\error_code.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\system_error.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\cpp\execution_policy.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\cpp\memory.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\cpp\memory_resource.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\cpp\pointer.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\cpp\vector.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\omp\execution_policy.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\omp\memory.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\omp\memory_resource.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\omp\pointer.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\omp\vector.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\tbb\execution_policy.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\tbb\memory.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\tbb\memory_resource.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\tbb\pointer.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\system\tbb\vector.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\type_traits\integer_sequence.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\type_traits\is_contiguous_iterator.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\type_traits\is_execution_policy.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\type_traits\is_operator_less_or_greater_function_object.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\type_traits\is_operator_plus_function_object.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\type_traits\is_trivially_relocatable.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\type_traits\logical_metafunctions.h"
+#include "F:\cpp-module-builder\src\cccl\thrust\thrust\type_traits\unwrap_contiguous_iterator.h"

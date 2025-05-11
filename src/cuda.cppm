@@ -1,0 +1,231 @@
+
+module;
+#include <algorithm>
+#include <any>
+#include <array>
+#include <atomic>
+#include <barrier>
+#include <bit>
+#include <bitset>
+#include <cassert>
+#include <cctype>
+#include <cerrno>
+#include <cfenv>
+#include <cfloat>
+#include <charconv>
+#include <chrono>
+#include <cinttypes>
+#include <climits>
+#include <clocale>
+#include <cmath>
+#include <codecvt>
+#include <compare>
+#include <complex>
+#include <concepts>
+#include <condition_variable>
+#include <coroutine>
+#include <csetjmp>
+#include <csignal>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <cuchar>
+#include <cwchar>
+#include <cwctype>
+#include <deque>
+#include <exception>
+#include <expected>
+#include <filesystem>
+#include <flat_map>
+#include <format>
+#include <forward_list>
+#include <fstream>
+#include <functional>
+#include <future>
+#include <initializer_list>
+#include <iomanip>
+#include <ios>
+#include <iosfwd>
+#include <iostream>
+#include <istream>
+#include <iterator>
+#include <latch>
+#include <limits>
+#include <list>
+#include <locale>
+#include <map>
+#include <memory>
+#include <memory_resource>
+#include <mutex>
+#include <new>
+#include <numbers>
+#include <numeric>
+#include <optional>
+#include <ostream>
+#include <print>
+#include <queue>
+#include <random>
+#include <ranges>
+#include <ratio>
+#include <regex>
+#include <scoped_allocator>
+#include <semaphore>
+#include <set>
+#include <shared_mutex>
+#include <source_location>
+#include <span>
+#include <sstream>
+#include <stack>
+#include <stdexcept>
+#include <stop_token>
+#include <streambuf>
+#include <string>
+#include <string_view>
+#include <strstream>
+#include <syncstream>
+#include <system_error>
+#include <thread>
+#include <tuple>
+#include <type_traits>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <valarray>
+#include <variant>
+#include <vector>
+#include <version>
+#ifdef _WIN32
+    #include <windows.h>  
+    #include <errhandlingapi.h>                                                             
+    #include <fileapi.h>                                                                    
+    #include <handleapi.h>                                                                  
+    #include <heapapi.h>                                                                    
+    #include <libloaderapi.h>                                                               
+    #include <memoryapi.h>                                                                                                                                                                                     
+    #include <processthreadsapi.h>                                                          
+    #include <profileapi.h>                                                                 
+    #include <stringapiset.h>                                                               
+    #include <synchapi.h>                                                                   
+    #include <sysinfoapi.h>                                                                 
+    #include <threadpoollegacyapiset.h>                                                     
+    #include <timezoneapi.h>                                                                                                                                
+    #include <wincrypt.h>                                                                 
+    #include <winnt.h> 
+    #include <winsock2.h>   
+    #include <ws2tcpip.h>                                                                  
+    #include <winbase.h>    
+#elifdef __linux__
+    // Nothing...
+#elifdef __APPLE__
+    #define _XOPEN_SOURCE
+    #include <dirent.h>
+    #include <dispatch/dispatch.h>
+    #include <mach/host_info.h>
+    #include <mach/task_info.h>
+    #include <mach/arm/thread_status.h>
+    #include <mach-o/dyld.h>
+    #include <mach-o/nlist.h>
+    #include <netdb.h>
+    #include <net/route.h>
+    #include <os/workgroup.h>
+    #include <sys/event.h>
+    #include <sys/fcntl.h>
+    #include <sys/ioctl.h>
+    #include <sys/mount.h>
+    #include <sys/poll.h>
+    #include <sys/proc.h>
+    #include <sys/proc_info.h>
+    #include <sys/select.h>
+    #include <sys/socket.h>
+    #include <sys/stat.h>
+    #include <sys/sysctl.h>
+    #include <sys/termios.h>
+    #include <sys/time.h>
+    #include <sys/unistd.h>
+    #include <sys/_select.h>
+    #include <ucontext.h>
+    #include <unwind.h>
+    #include <utime.h>
+#endif
+#ifdef __GNUC__
+    #include <cxxabi.h>
+#endif
+#if defined(__GNUC__) and not defined(__clang__)
+    #include <stacktrace>
+#elifdef __clang__
+    #include <mdspan>
+#endif
+#include <nv/target>
+export module cuda;
+#include <cuda/std/array>
+#include <cuda/std/atomic>
+#include <cuda/std/barrier>
+#include <cuda/std/bit>
+#include <cuda/std/bitset>
+#include <cuda/std/cassert>
+#include <cuda/std/ccomplex>
+#include <cuda/std/cfloat>
+#include <cuda/std/chrono>
+#include <cuda/std/climits>
+#include <cuda/std/cmath>
+#include <cuda/std/complex>
+#include <cuda/std/concepts>
+#include <cuda/std/cstddef>
+#include <cuda/std/cstdint>
+#include <cuda/std/cstdlib>
+#include <cuda/std/cstring>
+#include <cuda/std/ctime>
+#include <cuda/std/execution>
+#include <cuda/std/expected>
+#include <cuda/std/functional>
+#include <cuda/std/initializer_list>
+#include <cuda/std/inplace_vector>
+#include <cuda/std/iterator>
+#include <cuda/std/latch>
+#include <cuda/std/limits>
+#include <cuda/std/linalg>
+#include <cuda/std/mdspan>
+#include <cuda/std/memory>
+#include <cuda/std/numbers>
+#include <cuda/std/numeric>
+#include <cuda/std/optional>
+#include <cuda/std/ranges>
+#include <cuda/std/ratio>
+#include <cuda/std/semaphore>
+#include <cuda/std/source_location>
+#include <cuda/std/span>
+#include <cuda/std/string_view>
+#include <cuda/std/tuple>
+#include <cuda/std/type_traits>
+#include <cuda/std/utility>
+#include <cuda/std/variant>
+#include <cuda/std/version>
+#include <cuda/std/__algorithm_>
+#include <cuda/std/__charconv_>
+#include <cuda/std/__memory_>
+#include <cuda/std/__new_>
+#include <cuda/std/__string_>
+#include <cuda/std/__system_error_>
+#include <cuda/atomic>
+#include <cuda/barrier>
+#include <cuda/bit>
+#include <cuda/cmath>
+#include <cuda/discard_memory>
+#include <cuda/functional>
+#include <cuda/latch>
+#include <cuda/memory_resource>
+#include <cuda/numeric>
+#include <cuda/pipeline>
+#include <cuda/ptx>
+#include <cuda/semaphore>
+#include <cuda/type_traits>
+#include <cuda/version>
+#include <cuda/warp>
+#include <cuda/work_stealing>
+#include <cuda/__cccl_config>
