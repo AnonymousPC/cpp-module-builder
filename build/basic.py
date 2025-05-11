@@ -67,11 +67,11 @@ def build(repo,                                    # "stdexec"
           on_failure    = lambda           : None  # print("remove above 'static' from the function declaration")
          ):
     
-    run(f"cd module/{repo} && git fetch --recurse-submodules")
-    run(f"cd module/{repo} && git reset --hard origin/HEAD --recurse-submodules")
+    run(f"cd src/{repo} && git fetch --recurse-submodules")
+    run(f"cd src/{repo} && git reset --hard origin/HEAD --recurse-submodules")
 
     for src_dir in src_dirs:
-        for root, _, files in os.walk(f"module/{repo}/{src_dir}"): # usr/module/stdexec/include
+        for root, _, files in os.walk(f"src/{repo}/{src_dir}"): # usr/module/stdexec/include
             for file in files:
                 try:
                     data = ""
@@ -95,7 +95,7 @@ def build(repo,                                    # "stdexec"
                 except Exception as e:
                     print(f"{red}preprocessing {file} failed: {e}{white}")
 
-    with open(f"module/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
+    with open(f"src/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
         cppm.write(global_module) # module;
 
         for import_macro in import_macros.items():
@@ -118,17 +118,17 @@ def build(repo,                                    # "stdexec"
                     f"{' '.join(compile_args)} "
                     f"{' '.join(f"-Imodule/{repo}/{src_dir}" for src_dir in src_dirs)} "
                     f"-I{include_path} "
-                    f"-c module/{export_module}.cppm")
+                    f"-c src/{export_module}.cppm")
             elif compiler == "clang++":
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
                     f"{' '.join(f"-Imodule/{repo}/{src_dir}" for src_dir in src_dirs)} "
                     f"-I{include_path} "
-                    f"-c module/{export_module}.cppm "
+                    f"-c src/{export_module}.cppm "
                     f"--precompile -o module/pcm.cache/{export_module}.pcm")
                 run(f"{compiler} "
-                    f"-c module/pcm.cache/{export_module}.pcm "
-                    f"-o module/pcm.cache/{export_module}.o")
+                    f"-c src/pcm.cache/{export_module}.pcm "
+                    f"-o src/pcm.cache/{export_module}.o")
             on_success()
             break
         except Exception:
