@@ -5,7 +5,7 @@ import os
 if __name__ == "__main__":
     if compiler == "g++":
         if os.path.isfile(f"src/std.cc"):
-            run(f"g++ -std=c++26 -O3 -fmodules -fmodule-only src/std.cc -c")
+            run(f"g++ -std=c++26 -O3 -fmodules src/std.cc -c -o ")
         else:
             print(f"{red}e.g.: cp .../c++/15.1.0/bits/std.cc src/std.cc")
 
