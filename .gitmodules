@@ -12,10 +12,13 @@
 	url = https://gitlab.com/libeigen/eigen.git
 [submodule "src/plf"]
 	path = src/plf
-	url = https://github.com/mattreecebentley/plf_hive
+	url = https://github.com/mattreecebentley/plf_hive.git
 [submodule "src/stdexec"]
 	path = src/stdexec
 	url = https://github.com/NVIDIA/stdexec.git
 [submodule "src/tbb"]
 	path = src/tbb
 	url = https://github.com/uxlfoundation/oneTBB.git
+[submodule "src/openssl"]
+	path = src/openssl
+	url = https://github.com/openssl/openssl.git
