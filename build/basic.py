@@ -44,9 +44,7 @@ compile_args = [
 ]
 if compiler == "g++":
     compile_args.append("-fmodules")
-    compile_args.append("-fmodule-only")
 elif compiler == "clang++":
-    compile_args.append("-ferror-limit=100")
     compile_args.append("-fprebuilt-module-path=pcm.cache")
 
 
@@ -67,7 +65,7 @@ def build(repo,                                    # "stdexec"
           on_failure    = lambda           : None  # print("remove above 'static' from the function declaration")
          ):
     
-  #  run(f"cd src/{repo} && git fetch --recurse-submodules")
+    run(f"cd src/{repo} && git fetch --recurse-submodules")
     run(f"cd src/{repo} && git reset --hard origin/HEAD --recurse-submodules")
 
     for src_dir in src_dirs:
@@ -120,19 +118,20 @@ def build(repo,                                    # "stdexec"
             if compiler == "g++":
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
-                    f"{' '.join(f"-Isrc/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
+                    f"{' '.join(f"-I./src/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
                     f"-I{include_path} "
-                    f"-c src/{export_module}.cppm")
+                    f"-c ./src/{export_module}.cppm "
+                    f"-o ./gcm.cache/{export_module}.o")
             elif compiler == "clang++":
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
-                    f"{' '.join(f"-Isrc/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
+                    f"{' '.join(f"-I./src/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
                     f"-I{include_path} "
-                    f"-c src/{export_module}.cppm "
-                    f"--precompile -o module/pcm.cache/{export_module}.pcm")
+                    f"-c ./src/{export_module}.cppm "
+                    f"--precompile -o ./pcm.cache/{export_module}.pcm")
                 run(f"{compiler} "
-                    f"-c src/pcm.cache/{export_module}.pcm "
-                    f"-o src/pcm.cache/{export_module}.o")
+                    f"-c ./src/pcm.cache/{export_module}.pcm "
+                    f"-o ./src/pcm.cache/{export_module}.o")
             on_success()
             break
         except Exception:
