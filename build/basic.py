@@ -45,7 +45,7 @@ compile_args = [
 if compiler == "g++":
     compile_args.append("-fmodules")
 elif compiler == "clang++":
-    compile_args.append("-fprebuilt-module-path=pcm.cache")
+    compile_args.append("-fprebuilt-module-path=./pcm.cache")
 
 
 
@@ -130,8 +130,9 @@ def build(repo,                                    # "stdexec"
                     f"-c ./src/{export_module}.cppm "
                     f"--precompile -o ./pcm.cache/{export_module}.pcm")
                 run(f"{compiler} "
-                    f"-c ./src/pcm.cache/{export_module}.pcm "
-                    f"-o ./src/pcm.cache/{export_module}.o")
+                    f"{' '.join(compile_args)} "
+                    f"-c ./pcm.cache/{export_module}.pcm "
+                    f"-o ./pcm.cache/{export_module}.o")
             on_success()
             break
         except Exception:

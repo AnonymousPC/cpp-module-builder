@@ -20,6 +20,7 @@ import_headers    = [
     "<cuda/std/__cccl/version.h>",
     "<cuda/std/__cccl/visibility.h>",
     "<cuda/std/__internal/namespaces.h>",
+    "<cuda/__nvtx/nvtx.h>",
     "<nv/target>"
 ]
 import_macros     = {

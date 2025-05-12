@@ -19,6 +19,3 @@
 [submodule "src/tbb"]
 	path = src/tbb
 	url = https://github.com/uxlfoundation/oneTBB.git
-[submodule "src/openssl"]
-	path = src/openssl
-	url = https://github.com/openssl/openssl.git

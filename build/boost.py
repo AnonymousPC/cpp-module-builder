@@ -167,7 +167,7 @@ def on_preprocess(file, data):
         data = "#pragma once\n" + data
 
     if file == "./src/boost/libs/process/include/boost/process/v2/ext/detail/proc_info.hpp":
-        data = re.sub(r'ULONG NTAPI', 'extern "C" ULONG API')
+        data = re.sub(r'ULONG NTAPI', 'extern "C" ULONG API', data)
 
     if file == "./src/boost/libs/property_map/include/boost/property_map/property_map.hpp":
         data = re.sub(r'template(?= <class T.*\n\s*inline)', "export template", data)
