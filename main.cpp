@@ -1,7 +1,8 @@
 import std;
+import Eigen;
 
 int main ( )
 {
-    auto str = std::string("Hello");
-    std::println("{}", typeid(str).name());    
+    auto mat = Eigen::Matrix2d();
+    std::cout << mat << std::endl;
 }
