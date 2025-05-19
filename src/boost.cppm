@@ -162,10 +162,10 @@ module;
     #include <mdspan>
 #endif
 #define BOOST_LOCALE_WITH_ICU true
-#define BOOST_LOCALE_NO_WINAPI_BACKEND 
-#define BOOST_LOCALE_NO_POSIX_BACKEND true
+#define BOOST_LOCALE_WITH_ICONV true
 #define BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED true
 #define BOOST_USE_WINDOWS_H true
+#define BOOST_LOCALE_NO_WINAPI_BACKEND true
 #include <jerror.h>
 #include <jpeglib.h>
 #include <openssl/ssl.h>
@@ -273,6 +273,7 @@ import std;
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/util/foreach_char.hpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/util/codecvt_converter.cpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/util/timezone.hpp"
+#include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/util/iconv.hpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/util/numeric.hpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/util/encoding.cpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/util/default_locale.cpp"
@@ -288,6 +289,7 @@ import std;
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/std/all_generator.hpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/std/std_backend.cpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/encoding/uconv_converter.hpp"
+#include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/encoding/iconv_converter.hpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/encoding/codepage.cpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/generator.cpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/ids.cpp"
@@ -296,7 +298,9 @@ import std;
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/message.cpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/ios_prop.hpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/mo_lambda.hpp"
+#include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/iconv_codecvt.hpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/mo_lambda.cpp"
+#include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/iconv_codecvt.cpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/mo_hash.hpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/std_collate_adapter.hpp"
 #include "/Users/anonymous/Code/cpp-module-builder/src/boost/libs/locale/src/shared/localization_backend.cpp"

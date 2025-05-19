@@ -14,9 +14,8 @@ export_module     = "tbb"
 export_headers    = ["<tbb/tbb.h>"]
 for root, _, files in os.walk(f"./src/tbb/src"):
     for file in files:
-        if file.endswith(".cpp")          and \
-           not "main.cpp"         in file and \
-           not "dynamic_link.cpp" in file:
+        if file.endswith(".cpp") and \
+           file != "./src/tbb/src/tbb/main.cpp":
             export_headers.append(f"./{root}/{file}")
 
 export_namespaces = ["tbb"]
