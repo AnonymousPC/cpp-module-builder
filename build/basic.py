@@ -23,7 +23,7 @@ white   = "\033[38;2;192;192;192m"
 # Config
 
 if system == "windows":
-    compiler     = "g++"
+    compiler     = "cl"
     include_path = "F:/msys/ucrt64/include"
     lib_path     = "F:/msys/ucrt64/lib"
 elif system == "linux":
@@ -65,33 +65,33 @@ def build(repo,                                    # "stdexec"
           on_failure    = lambda           : None  # print("remove above 'static' from the function declaration")
          ):
     
-    run(f"cd src/{repo} && git fetch --recurse-submodules")
-    run(f"cd src/{repo} && git reset --hard origin/HEAD --recurse-submodules")
+    # run(f"cd src/{repo} && git fetch --recurse-submodules")
+    # run(f"cd src/{repo} && git reset --hard origin/HEAD --recurse-submodules")
 
-    for src_dir in src_dirs:
-        for root, _, files in os.walk(f"./src/{repo}/{src_dir.replace("./", "")}"): # usr/module/stdexec/include
-            for file in files:
-                try:
-                    data = ""
+    # for src_dir in src_dirs:
+    #     for root, _, files in os.walk(f"./src/{repo}/{src_dir.replace("./", "")}"): # usr/module/stdexec/include
+    #         for file in files:
+    #             try:
+    #                 data = ""
 
-                    with open(f"{root}/{file}", 'r', encoding="utf-8") as reader:
-                        data = reader.read()
+    #                 with open(f"{root}/{file}", 'r', encoding="utf-8") as reader:
+    #                     data = reader.read()
 
-                    for import_module in import_modules:
-                        data = re.sub(fr'#\s*include\s*<{import_module.replace('.', '/')}[^<>]*>', "", data) # include <boost/asio.hpp>
+    #                 for import_module in import_modules:
+    #                     data = re.sub(fr'#\s*include\s*<{import_module.replace('.', '/')}[^<>]*>', "", data) # include <boost/asio.hpp>
 
-                    for export_namespace in export_namespaces:
-                        data = re.sub(fr'\b(?<!using )(?<!export )(?<!// )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
+    #                 for export_namespace in export_namespaces:
+    #                     data = re.sub(fr'\b(?<!using )(?<!export )(?<!// )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
 
-                    data = re.sub(r'\bnamespace(?=[\s\\]*{)', f"inline namespace __anonymous_{count()}__", data) # namespace {}
+    #                 data = re.sub(r'\bnamespace(?=[\s\\]*{)', f"inline namespace __anonymous_{count()}__", data) # namespace {}
 
-                    data = on_preprocess(f"{root}/{file}".replace('\\', '/'), data)
+    #                 data = on_preprocess(f"{root}/{file}".replace('\\', '/'), data)
 
-                    with open(f"{root}/{file}", 'w', encoding="utf-8") as writer:
-                        writer.write(data)
+    #                 with open(f"{root}/{file}", 'w', encoding="utf-8") as writer:
+    #                     writer.write(data)
 
-                except Exception as e:
-                    print(f"{red}preprocessing {file} failed: {e}{white}")
+    #             except Exception as e:
+    #                 print(f"{red}preprocessing {file} failed: {e}{white}")
 
     with open(f"./src/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
         cppm.write(global_module) # module;
