@@ -65,8 +65,7 @@ def build(repo,                                    # "stdexec"
           on_failure    = lambda           : None  # print("remove above 'static' from the function declaration")
          ):
     
-    # run(f"cd src/{repo} && git fetch --recurse-submodules")
-    # run(f"cd src/{repo} && git reset --hard origin/HEAD --recurse-submodules")
+    run(f"cd src/{repo} && git reset --hard origin/HEAD --recurse-submodules")
 
     # for src_dir in src_dirs:
     #     for root, _, files in os.walk(f"./src/{repo}/{src_dir.replace("./", "")}"): # usr/module/stdexec/include
@@ -127,8 +126,8 @@ def build(repo,                                    # "stdexec"
                     f"{' '.join(compile_args)} "
                     f"{' '.join(f"-I./src/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
                     f"-I{include_path} "
-                    f"-c ./src/{export_module}.cppm "
-                    f"--precompile -o ./pcm.cache/{export_module}.pcm")
+                    f"--precompile ./src/{export_module}.cppm "
+                    f"-o ./pcm.cache/{export_module}.pcm")
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
                     f"-c ./pcm.cache/{export_module}.pcm "

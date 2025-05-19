@@ -166,6 +166,7 @@ module;
 #define BOOST_LOCALE_NO_POSIX_BACKEND 
 #define BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED true
 #define BOOST_USE_WINDOWS_H true
+#define BOOST_LOCALE_NO_WINAPI_BACKEND true
 #include <jerror.h>
 #include <jpeglib.h>
 #include <openssl/ssl.h>

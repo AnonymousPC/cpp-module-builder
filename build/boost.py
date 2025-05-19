@@ -53,21 +53,21 @@ import_headers = [
     
 import_macros = {
     "BOOST_LOCALE_WITH_ICU":                    "true",
-    "BOOST_LOCALE_NO_WINAPI_BACKEND":           "true",
-    "BOOST_LOCALE_NO_POSIX_BACKEND":            "true",
+    "BOOST_LOCALE_WITH_ICONV":                  "true",
     "BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED": "true",
     "BOOST_USE_WINDOWS_H":                      "true"
 }
 if system == "windows":
-    import_macros["BOOST_LOCALE_NO_POSIX_BACKEND"] = ""
+    import_macros["BOOST_LOCALE_NO_POSIX_BACKEND"] = "true"
 elif system == "linux" or system == "macos":
-    import_macros["BOOST_LOCALE_NO_WINAPI_BACKEND"] = ""
+    import_macros["BOOST_LOCALE_NO_WINAPI_BACKEND"] = "true"
 
 export_module  = "boost"
 export_headers = [
     "<boost/asio.hpp>",
     "<boost/asio/ssl.hpp>",
     "<boost/beast.hpp>",
+    "<boost/charconv.hpp>",
     "<boost/circular_buffer.hpp>",
     "<boost/date_time.hpp>",
     "<boost/dynamic_bitset.hpp>",
@@ -102,8 +102,8 @@ export_headers = [
 for subrepo in ["charconv", "datetime", "filesystem", "iostreams", "locale", "process", "system", "thread"]:
     for root, _, files in os.walk(f"./src/boost/libs/{subrepo}/src"):
         for file in files:
-            if ( system == "windows"                     and not "posix" in f"{root}/{file}" and not "pthread" in f"{root}/{file}" and not "iconv" in f"{root}/{file}") or \
-               ((system == "linux" or system == "macos") and not "win"   in f"{root}/{file}" and not "wconv"   in f"{root}/{file}" and not "iconv" in f"{root}/{file}"): 
+            if ( system == "windows"                     and not "posix" in f"{root}/{file}" and not "pthread" in f"{root}/{file}") or \
+               ((system == "linux" or system == "macos") and not "win"   in f"{root}/{file}" and not "wconv"   in f"{root}/{file}"): 
                 export_headers.append(f"./{root}/{file}")
 
 export_headers.append(f"./src/boost/libs/stacktrace/src/basic.cpp")
