@@ -45,7 +45,7 @@ compile_args = [
 if compiler == "g++":
     compile_args.append("-fmodules")
 elif compiler == "clang++":
-    compile_args.append("-fprebuilt-module-path=./pcm.cache")
+    compile_args.append("-fprebuilt-module-path=./module")
 
 
 
@@ -120,18 +120,18 @@ def build(repo,                                    # "stdexec"
                     f"{' '.join(f"-I ./src/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
                     f"-I {include_path} "
                     f"-c ./src/{export_module}.cppm "
-                    f"-o ./gcm.cache/{export_module}.o")
+                    f"-o ./module/{export_module}.o")
             elif compiler == "clang++":
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
                     f"{' '.join(f"-I ./src/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
                     f"-I {include_path} "
                     f"--precompile ./src/{export_module}.cppm "
-                    f"-o ./pcm.cache/{export_module}.pcm")
+                    f"-o ./module/{export_module}.pcm")
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
-                    f"-c ./pcm.cache/{export_module}.pcm "
-                    f"-o ./pcm.cache/{export_module}.o")
+                    f"-c ./module/{export_module}.pcm "
+                    f"-o ./module/{export_module}.o")
             on_success()
             break
         except Exception:
