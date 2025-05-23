@@ -117,15 +117,15 @@ def build(repo,                                    # "stdexec"
             if compiler == "g++":
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
-                    f"{' '.join(f"-I./src/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
-                    f"-I{include_path} "
+                    f"{' '.join(f"-I ./src/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
+                    f"-I {include_path} "
                     f"-c ./src/{export_module}.cppm "
                     f"-o ./gcm.cache/{export_module}.o")
             elif compiler == "clang++":
                 run(f"{compiler} "
                     f"{' '.join(compile_args)} "
-                    f"{' '.join(f"-I./src/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
-                    f"-I{include_path} "
+                    f"{' '.join(f"-I ./src/{repo}/{src_dir.replace("./", "")}" for src_dir in src_dirs)} "
+                    f"-I {include_path} "
                     f"--precompile ./src/{export_module}.cppm "
                     f"-o ./pcm.cache/{export_module}.pcm")
                 run(f"{compiler} "
