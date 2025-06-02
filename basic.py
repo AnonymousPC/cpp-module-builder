@@ -13,12 +13,6 @@ elif sys.platform == "linux":
 elif sys.platform == "darwin":
     system = "macos"
 
-red     = "\033[38;2;240;0;0m"
-yellow  = "\033[38;2;240;240;0m"
-green   = "\033[38;2;0;240;0m"
-white   = "\033[38;2;192;192;192m"
-
-
 
 # Config
 
@@ -35,22 +29,40 @@ elif system == "macos":
     include_path = "/opt/homebrew/include"
     lib_path     = "/opt/homebrew/lib"
 
-compile_args = [
-    "-std=c++26", 
-    "-O3", 
-    "-g", 
-    "-w",
-    "-fdiagnostics-color=always",
-]
 if compiler == "g++":
-    compile_args.append("-fmodules")
+    compile_args = [
+        "-std=c++26", 
+        "-g", 
+        "-w", 
+        "-fdiagnostics-color=always",
+        "-fmodules",
+        "-O3",
+        "-DNDEBUG"
+    ]
 elif compiler == "clang++":
-    compile_args.append("-fprebuilt-module-path=./module")
+    compile_args = [
+        "-std=c++26", 
+        "-g", 
+        "-w", 
+        "-fdiagnostics-color=always",
+        "-fprebuilt-module-path=./module",
+        "-O3",
+        "-DNDEBUG"
+    ]
+elif compiler == "cl":
+    compiler_args = [
+        "/std:c++latest",
+        "/EHsc",
+        "/Z7",
+        "/w",
+        "/O2",
+        "/DNDEBUG"
+    ]
 
 
 
 
-# Compile
+# Core
      
 def build(repo,                                    # "stdexec"
           src_dirs,                                # ["./include"]
@@ -62,38 +74,38 @@ def build(repo,                                    # "stdexec"
           export_namespaces,                       # ["stdexec", "exec", "asioexec", "nvexec", "tbbexec", "execpools"]
           on_preprocess = lambda file, data: data, # data = data.replace(...)
           on_success    = lambda           : None, # None
-          on_failure    = lambda           : None  # print("remove above 'static' from the function declaration")
+          on_failure    = lambda           : None  # log("remove above 'static' from the function declaration", color="green")
          ):
     
     run(f"cd src/{repo} && git reset --hard origin/HEAD --recurse-submodules")
 
-    # for src_dir in src_dirs:
-    #     for root, _, files in os.walk(f"./src/{repo}/{src_dir.replace("./", "")}"): # usr/module/stdexec/include
-    #         for file in files:
-    #             try:
-    #                 data = ""
+    for src_dir in src_dirs:
+        for root, _, files in os.walk(f"./src/{repo}/{src_dir.replace("./", "")}"): # usr/module/stdexec/include
+            for file in files:
+                try:
+                    data = ""
 
-    #                 with open(f"{root}/{file}", 'r', encoding="utf-8") as reader:
-    #                     data = reader.read()
+                    with open(f"{root}/{file}", 'r', encoding="utf-8") as reader:
+                        data = reader.read()
 
-    #                 for import_module in import_modules:
-    #                     data = re.sub(fr'#\s*include\s*<{import_module.replace('.', '/')}[^<>]*>', "", data) # include <boost/asio.hpp>
+                    for import_module in import_modules:
+                        data = re.sub(fr'#\s*include\s*<{import_module.replace('.', '/')}[^<>]*>', "", data) # include <boost/asio.hpp>
 
-    #                 for export_namespace in export_namespaces:
-    #                     data = re.sub(fr'\b(?<!using )(?<!export )(?<!// )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
+                    for export_namespace in export_namespaces:
+                        data = re.sub(fr'\b(?<!using )(?<!export )(?<!// )namespace\s+{export_namespace}(?=(::[a-zA-Z0-9:_]*)?\b)', f"export namespace {export_namespace}", data) # export namespace stdexec
 
-    #                 data = re.sub(r'\bnamespace(?=[\s\\]*{)', f"inline namespace __anonymous_{count()}__", data) # namespace {}
+                    data = re.sub(r'\bnamespace(?=[\s\\]*{)', f"inline namespace __anonymous_{__count()}__", data) # namespace {}
 
-    #                 data = on_preprocess(f"{root}/{file}".replace('\\', '/'), data)
+                    data = on_preprocess(f"{root}/{file}".replace('\\', '/'), data)
 
-    #                 with open(f"{root}/{file}", 'w', encoding="utf-8") as writer:
-    #                     writer.write(data)
+                    with open(f"{root}/{file}", 'w', encoding="utf-8") as writer:
+                        writer.write(data)
 
-    #             except Exception as e:
-    #                 print(f"{red}preprocessing {file} failed: {e}{white}")
+                except Exception as e:
+                    log(f"preprocessing {file} failed: {e}", color="red")
 
     with open(f"./src/{export_module}.cppm", 'w') as cppm: # /usr/module/stdexec.cppm
-        cppm.write(global_module) # module;
+        cppm.write(__global_module) # module;
 
         for import_macro in import_macros.items():
             cppm.write(f"#define {import_macro[0]} {import_macro[1]}\n") # define 
@@ -132,33 +144,55 @@ def build(repo,                                    # "stdexec"
                     f"{' '.join(compile_args)} "
                     f"-c ./module/{export_module}.pcm "
                     f"-o ./module/{export_module}.o")
+            elif compiler == "cl":
+                print("Oh no we do not know what to do")
+                exit(-1)
             on_success()
             break
         except Exception:
             on_failure()
             try:
-                input(f"{yellow}Press Enter to re-compile, or Ctrl-C to abort:{white}")
+                log("Press Enter to re-compile, or Ctrl-C to abort: ", color="yellow", end="")
+                input()
             except KeyboardInterrupt:
                 exit(-1)
 
 
 
+# Utility
+
 def run(command):
-    print(f"{yellow}{command}{white}")
+    command = re.sub(r'\s+', ' ', command)
+    log(f"{command}", color="yellow")
     subprocess.run(command, shell=True, check=True)
+
+def log(message, color=None, end='\n'):
+    colormap = {
+        "red"   : "\033[38;2;240;240;0m",
+        "yellow": "\033[38;2;240;240;0m",
+        "green" : "\033[38;2;0;240;0m",
+        "white" : "\033[38;2;192;192;192m"
+    }
+
+    if color is None:
+        print(message, end=end)
+    else:
+        print(f"{colormap[color]}{message}{colormap["white"]}", end=end)
+
+
 
 
 
 
 # Detail
 
-counter = 0
-def count():
-    global counter
-    counter += 1
-    return counter
+__counter = 0
+def __count():
+    global __counter
+    __counter += 1
+    return __counter
 
-global_module = \
+__global_module = \
 '''
 module;
 #include <algorithm>
@@ -284,7 +318,7 @@ module;
 #elifdef __linux__
     // Nothing...
 #elifdef __APPLE__
-    #define _XOPEN_SOURCE
+    #define _XOPEN_SOURCE 700
     #include <dirent.h>
     #include <dispatch/dispatch.h>
     #include <mach/host_info.h>

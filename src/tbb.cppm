@@ -123,7 +123,7 @@ module;
 #elifdef __linux__
     // Nothing...
 #elifdef __APPLE__
-    #define _XOPEN_SOURCE
+    #define _XOPEN_SOURCE 700
     #include <dirent.h>
     #include <dispatch/dispatch.h>
     #include <mach/host_info.h>

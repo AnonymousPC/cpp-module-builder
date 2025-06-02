@@ -53,6 +53,6 @@ if __name__ == "__main__":
           export_headers    = export_headers,
           export_namespaces = export_namespaces,
           on_preprocess     = on_preprocess,
-          on_failure        = lambda: print(f"{green}remove above 'static' and redefinitions{white}"))
+          on_failure        = lambda: log("remove above 'static' and redefinitions", color="green"))
 
 

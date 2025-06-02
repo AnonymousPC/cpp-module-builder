@@ -123,7 +123,7 @@ module;
 #elifdef __linux__
     // Nothing...
 #elifdef __APPLE__
-    #define _XOPEN_SOURCE
+    #define _XOPEN_SOURCE 700
     #include <dirent.h>
     #include <dispatch/dispatch.h>
     #include <mach/host_info.h>
@@ -174,7 +174,5 @@ import tbb;
 #include <stdexec/stop_token.hpp>
 #include <exec/static_thread_pool.hpp>
 #include <exec/when_any.hpp>
-#include <asioexec/completion_token.hpp>
-#include <asioexec/use_sender.hpp>
 #include <execpools/asio/asio_thread_pool.hpp>
 #include <execpools/tbb/tbb_thread_pool.hpp>

@@ -123,7 +123,7 @@ module;
 #elifdef __linux__
     // Nothing...
 #elifdef __APPLE__
-    #define _XOPEN_SOURCE
+    #define _XOPEN_SOURCE 700
     #include <dirent.h>
     #include <dispatch/dispatch.h>
     #include <mach/host_info.h>
@@ -298,6 +298,7 @@ import tbb;
 #include "/Users/anonymous/Code/cpp-module-builder/src/cccl/thrust/thrust/iterator/iterator_facade.h"
 #include "/Users/anonymous/Code/cpp-module-builder/src/cccl/thrust/thrust/iterator/retag.h"
 #include "/Users/anonymous/Code/cpp-module-builder/src/cccl/thrust/thrust/iterator/counting_iterator.h"
+#include "/Users/anonymous/Code/cpp-module-builder/src/cccl/thrust/thrust/iterator/strided_iterator.h"
 #include "/Users/anonymous/Code/cpp-module-builder/src/cccl/thrust/thrust/iterator/tabulate_output_iterator.h"
 #include "/Users/anonymous/Code/cpp-module-builder/src/cccl/thrust/thrust/iterator/offset_iterator.h"
 #include "/Users/anonymous/Code/cpp-module-builder/src/cccl/thrust/thrust/iterator/transform_input_output_iterator.h"

@@ -123,7 +123,7 @@ module;
 #elifdef __linux__
     // Nothing...
 #elifdef __APPLE__
-    #define _XOPEN_SOURCE
+    #define _XOPEN_SOURCE 700
     #include <dirent.h>
     #include <dispatch/dispatch.h>
     #include <mach/host_info.h>
@@ -163,6 +163,21 @@ module;
 #endif
 #include <nv/target>
 export module cuda;
+#include <cuda/__cccl_config>
+#include <cuda/bit>
+#include <cuda/ptx>
+#include <cuda/discard_memory>
+#include <cuda/type_traits>
+#include <cuda/access_property>
+#include <cuda/annotated_ptr>
+#include <cuda/iterator>
+#include <cuda/numeric>
+#include <cuda/version>
+#include <cuda/warp>
+#include <cuda/work_stealing>
+#include <cuda/stream_ref>
+#include <cuda/cmath>
+#include <cuda/functional>
 #include <cuda/std/bitset>
 #include <cuda/std/ranges>
 #include <cuda/std/ctime>
@@ -179,19 +194,15 @@ export module cuda;
 #include <cuda/std/expected>
 #include <cuda/std/complex>
 #include <cuda/std/__charconv_>
-#include <cuda/std/latch>
 #include <cuda/std/type_traits>
 #include <cuda/std/cstring>
 #include <cuda/std/limits>
-#include <cuda/std/atomic>
 #include <cuda/std/__algorithm_>
 #include <cuda/std/ratio>
-#include <cuda/std/barrier>
 #include <cuda/std/cstddef>
 #include <cuda/std/optional>
 #include <cuda/std/iterator>
 #include <cuda/std/numeric>
-#include <cuda/std/semaphore>
 #include <cuda/std/cfloat>
 #include <cuda/std/span>
 #include <cuda/std/__string_>
@@ -212,20 +223,3 @@ export module cuda;
 #include <cuda/std/functional>
 #include <cuda/std/__memory_>
 #include <cuda/std/utility>
-#include <cuda/__cccl_config>
-#include <cuda/pipeline>
-#include <cuda/bit>
-#include <cuda/ptx>
-#include <cuda/latch>
-#include <cuda/discard_memory>
-#include <cuda/type_traits>
-#include <cuda/atomic>
-#include <cuda/barrier>
-#include <cuda/numeric>
-#include <cuda/semaphore>
-#include <cuda/version>
-#include <cuda/warp>
-#include <cuda/memory_resource>
-#include <cuda/work_stealing>
-#include <cuda/cmath>
-#include <cuda/functional>

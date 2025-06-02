@@ -17,8 +17,6 @@ export_headers    = [
     "<stdexec/stop_token.hpp>", 
     "<exec/static_thread_pool.hpp>", 
     "<exec/when_any.hpp>",
-    "<asioexec/completion_token.hpp>",
-    "<asioexec/use_sender.hpp>",
     "<execpools/asio/asio_thread_pool.hpp>",
     "<execpools/tbb/tbb_thread_pool.hpp>",
 ]
@@ -39,7 +37,7 @@ if __name__ == "__main__":
           export_headers    = export_headers,
           export_namespaces = export_namespaces,
           on_preprocess     = on_preprocess,
-          on_failure        = lambda: print(f"{green}remove above 'static' from the function declaration{white}"))
+          on_failure        = lambda: log("remove above 'static' from the function declaration", color="green"))
 
 
 
