@@ -115,6 +115,7 @@
         "locale": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "mdspan": "cpp"
+        "mdspan": "cpp",
+        "__config_site": "cpp"
     }
 }
